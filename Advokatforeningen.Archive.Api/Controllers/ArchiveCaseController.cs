@@ -1,6 +1,7 @@
 ﻿using Advokatforeningen.Archive.Api.Core;
 using Advokatforeningen.Archive.Api.Model;
-using Advokatforeningen.Archive.Api.Repositories.HelperClasses;
+
+//using Advokatforeningen.Archive.Api.Repositories.HelperClasses;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
