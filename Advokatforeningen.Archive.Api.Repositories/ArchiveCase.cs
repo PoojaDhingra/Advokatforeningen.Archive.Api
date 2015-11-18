@@ -17,19 +17,6 @@ namespace Advokatforeningen.Archive.Api.Repositories
     {
         #region public methods
 
-        private static int GetLocaleId(RestClient rc)
-        {
-            RestRequest request = new RestRequest("web/language", Method.GET)
-            {
-                RequestFormat = DataFormat.Json
-            };
-            request.AddHeader(Accept, AcceptHeaderVal);
-            IRestResponse response = rc.Execute(request);
-            string content = response.Content;
-            JObject jobj = JObject.Parse(content);
-            return Convert.ToInt32(jobj["d"]["Language"]);
-        }
-
         public string GetCaseFolderDetails(int caseId, ArchiveCredentialModel objArchiveModel)
         {
             string siteUrl = objArchiveModel.BaseSiteUrl;
@@ -1058,6 +1045,24 @@ namespace Advokatforeningen.Archive.Api.Repositories
         #endregion public methods
 
         #region private methods
+
+        /// <summary>
+        /// gets the locale id
+        /// </summary>
+        /// <param name="rc"></param>
+        /// <returns></returns>
+        private static int GetLocaleId(RestClient rc)
+        {
+            RestRequest request = new RestRequest("web/language", Method.GET)
+            {
+                RequestFormat = DataFormat.Json
+            };
+            request.AddHeader(Accept, AcceptHeaderVal);
+            IRestResponse response = rc.Execute(request);
+            string content = response.Content;
+            JObject jobj = JObject.Parse(content);
+            return Convert.ToInt32(jobj["d"]["Language"]);
+        }
 
         /// <summary>
         /// Get the Rest Client
