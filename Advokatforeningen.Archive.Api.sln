@@ -1,0 +1,52 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Advokatforeningen.Archive.Api.Core", "Advokatforeningen.Archive.Api.Core\Advokatforeningen.Archive.Api.Core.csproj", "{BFDE71AF-DA8F-4546-AFCC-CD1DA88781EE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Advokatforeningen.Archive.Api.Model", "Advokatforeningen.Archive.Api.Model\Advokatforeningen.Archive.Api.Model.csproj", "{CB17ECB1-C814-4BD7-8D55-F49ECF811904}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Advokatforeningen.Archive.Api.Proxy", "Advokatforeningen.Archive.Api.Proxy\Advokatforeningen.Archive.Api.Proxy.csproj", "{2488CC63-B12C-4F9F-8F49-54FAE35ECBD8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Advokatforeningen.Archive.Api.Repositories", "Advokatforeningen.Archive.Api.Repositories\Advokatforeningen.Archive.Api.Repositories.csproj", "{738CCA6B-DB3C-439A-B6DA-F9ABBC484C36}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Advokatforeningen.Archive.Api.Tests", "Advokatforeningen.Archive.Api.Tests\Advokatforeningen.Archive.Api.Tests.csproj", "{9E347280-087E-464F-AE55-EDFDA6321E2F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Advokatforeningen.Archive.Api", "Advokatforeningen.Archive.Api\Advokatforeningen.Archive.Api.csproj", "{76BBBBB4-E61B-44BC-9CD5-B85F4813F086}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BFDE71AF-DA8F-4546-AFCC-CD1DA88781EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BFDE71AF-DA8F-4546-AFCC-CD1DA88781EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BFDE71AF-DA8F-4546-AFCC-CD1DA88781EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BFDE71AF-DA8F-4546-AFCC-CD1DA88781EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CB17ECB1-C814-4BD7-8D55-F49ECF811904}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CB17ECB1-C814-4BD7-8D55-F49ECF811904}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CB17ECB1-C814-4BD7-8D55-F49ECF811904}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CB17ECB1-C814-4BD7-8D55-F49ECF811904}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2488CC63-B12C-4F9F-8F49-54FAE35ECBD8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2488CC63-B12C-4F9F-8F49-54FAE35ECBD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2488CC63-B12C-4F9F-8F49-54FAE35ECBD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2488CC63-B12C-4F9F-8F49-54FAE35ECBD8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{738CCA6B-DB3C-439A-B6DA-F9ABBC484C36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{738CCA6B-DB3C-439A-B6DA-F9ABBC484C36}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{738CCA6B-DB3C-439A-B6DA-F9ABBC484C36}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{738CCA6B-DB3C-439A-B6DA-F9ABBC484C36}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E347280-087E-464F-AE55-EDFDA6321E2F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E347280-087E-464F-AE55-EDFDA6321E2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E347280-087E-464F-AE55-EDFDA6321E2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E347280-087E-464F-AE55-EDFDA6321E2F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{76BBBBB4-E61B-44BC-9CD5-B85F4813F086}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76BBBBB4-E61B-44BC-9CD5-B85F4813F086}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76BBBBB4-E61B-44BC-9CD5-B85F4813F086}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76BBBBB4-E61B-44BC-9CD5-B85F4813F086}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
