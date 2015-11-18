@@ -44,7 +44,7 @@ namespace Advokatforeningen.Archive.Api.Repositories
                     objArchiveModel.BaseSiteUrl += "/" + KeywordApi;
 
                 string formDigestValue, libraryName = string.Empty, caseFolderName = string.Empty;
-                var restClient = RestClient(objArchiveModel.BaseSiteUrl, objArchiveModel.Username, objArchiveModel.Password, out formDigestValue);
+                var restClient = RestClientObj(objArchiveModel.BaseSiteUrl, objArchiveModel.Username, objArchiveModel.Password, out formDigestValue);
 
                 int localeId = GetLocaleId(restClient);
 
@@ -97,7 +97,7 @@ namespace Advokatforeningen.Archive.Api.Repositories
                 archiveModel.BaseSiteUrl += "/" + KeywordApi;
 
             string formDigestValue, libraryName = string.Empty, caseFolderName = string.Empty;
-            var restClient = RestClient(archiveModel.BaseSiteUrl, archiveModel.Username, archiveModel.Password, out formDigestValue);
+            var restClient = RestClientObj(archiveModel.BaseSiteUrl, archiveModel.Username, archiveModel.Password, out formDigestValue);
 
             int localeId = GetLocaleId(restClient);
 
@@ -179,7 +179,7 @@ namespace Advokatforeningen.Archive.Api.Repositories
         private string BreakChildFolderInheritance(ArchiveCredentialModel archiveModel, string listTitle, int listItemId)
         {
             string formDigestValue;
-            var restClient = RestClient(archiveModel.BaseSiteUrl, archiveModel.Username, archiveModel.Password, out formDigestValue);
+            var restClient = RestClientObj(archiveModel.BaseSiteUrl, archiveModel.Username, archiveModel.Password, out formDigestValue);
 
             RestRequest request = new RestRequest("web/lists/GetByTitle('" + listTitle + "')/getItemById(" + listItemId + ")/breakroleinheritance", Method.POST)
             {
@@ -200,7 +200,7 @@ namespace Advokatforeningen.Archive.Api.Repositories
         private void CreateCaseChildFolder(string folderServerRelativeUrl, string libraryName, ArchiveCredentialModel archiveModel)
         {
             string formDigestValue;
-            var restClient = RestClient(archiveModel.BaseSiteUrl, archiveModel.Username, archiveModel.Password, out formDigestValue);
+            var restClient = RestClientObj(archiveModel.BaseSiteUrl, archiveModel.Username, archiveModel.Password, out formDigestValue);
 
             List<string> templateFolders = new List<string>
             {
@@ -275,7 +275,7 @@ namespace Advokatforeningen.Archive.Api.Repositories
         private static string AssignFolderPermissions(string listTitle, int listItemId, string groupId, string roleDefiId, ArchiveCredentialModel archiveModel)
         {
             string formDigestValue;
-            var restClient = RestClient(archiveModel.BaseSiteUrl, archiveModel.Username, archiveModel.Password, out formDigestValue);
+            var restClient = RestClientObj(archiveModel.BaseSiteUrl, archiveModel.Username, archiveModel.Password, out formDigestValue);
 
             RestRequest request = new RestRequest("web/lists/getbytitle('" + listTitle + "')/Items(" + listItemId + ")/roleassignments/addroleassignment(principalid='" + groupId + "',roledefid='" + roleDefiId + "')", Method.POST)
             {
@@ -291,7 +291,7 @@ namespace Advokatforeningen.Archive.Api.Repositories
         private static void AssignOwnerPermissions(string listTitle, int listItemId, string groupId, string roleDefiId, ArchiveCredentialModel archiveModel)
         {
             string formDigestValue;
-            var restClient = RestClient(archiveModel.BaseSiteUrl, archiveModel.Username, archiveModel.Password, out formDigestValue);
+            var restClient = RestClientObj(archiveModel.BaseSiteUrl, archiveModel.Username, archiveModel.Password, out formDigestValue);
 
             RestRequest request = new RestRequest("web/lists/getbytitle('" + listTitle + "')/Items(" + listItemId + ")/roleassignments/addroleassignment(principalid='" + groupId + "',roledefid='" + roleDefiId + "')", Method.POST)
             {
@@ -313,7 +313,7 @@ namespace Advokatforeningen.Archive.Api.Repositories
                 archiveModel.BaseSiteUrl += "/" + KeywordApi;
 
             string formDigestValue, libraryName = string.Empty;
-            var restClient = RestClient(archiveModel.BaseSiteUrl, archiveModel.Username, archiveModel.Password, out formDigestValue);
+            var restClient = RestClientObj(archiveModel.BaseSiteUrl, archiveModel.Username, archiveModel.Password, out formDigestValue);
 
             int localeId = GetLocaleId(restClient);
 
@@ -437,7 +437,7 @@ namespace Advokatforeningen.Archive.Api.Repositories
                         relativeUrl = uri1.AbsolutePath;
                     }
                     string formDigestValue, libraryName = string.Empty, caseFolderName = string.Empty, documentStatusValue = string.Empty;
-                    var restClient = RestClient(archiveModel.BaseSiteUrl, archiveModel.Username, archiveModel.Password, out formDigestValue);
+                    var restClient = RestClientObj(archiveModel.BaseSiteUrl, archiveModel.Username, archiveModel.Password, out formDigestValue);
 
                     int localeId = GetLocaleId(restClient);
 
@@ -542,7 +542,7 @@ namespace Advokatforeningen.Archive.Api.Repositories
                 objArchiveModel.BaseSiteUrl += "/" + KeywordApi;
 
             string formDigestValue, libraryName = string.Empty, documentStatus = string.Empty;
-            RestClient restClient = RestClient(objArchiveModel.BaseSiteUrl, objArchiveModel.Username, objArchiveModel.Password, out formDigestValue);
+            RestClient restClient = RestClientObj(objArchiveModel.BaseSiteUrl, objArchiveModel.Username, objArchiveModel.Password, out formDigestValue);
 
             int localeId = GetLocaleId(restClient);
 
@@ -601,7 +601,7 @@ namespace Advokatforeningen.Archive.Api.Repositories
                 archiveModel.BaseSiteUrl += "/" + KeywordApi;
 
             string formDigestValue, libraryName = string.Empty, documentStatusValue = string.Empty;
-            RestClient restClient = RestClient(archiveModel.BaseSiteUrl, archiveModel.Username, archiveModel.Password, out formDigestValue);
+            RestClient restClient = RestClientObj(archiveModel.BaseSiteUrl, archiveModel.Username, archiveModel.Password, out formDigestValue);
 
             int localeId = GetLocaleId(restClient);
 
@@ -677,7 +677,7 @@ namespace Advokatforeningen.Archive.Api.Repositories
                 archiveModel.BaseSiteUrl += "/" + KeywordApi;
 
             string formDigestValue, libraryName = string.Empty, recordCenterLibrary = string.Empty, caseFolderName = string.Empty;
-            var restClient = RestClient(archiveModel.BaseSiteUrl, archiveModel.Username, archiveModel.Password, out formDigestValue);
+            var restClient = RestClientObj(archiveModel.BaseSiteUrl, archiveModel.Username, archiveModel.Password, out formDigestValue);
 
             int localeId = GetLocaleId(restClient);
             if (Equals(localeId, NorwegianNoLocaleId))
@@ -930,7 +930,7 @@ namespace Advokatforeningen.Archive.Api.Repositories
                 archiveModel.BaseSiteUrl = targetSiteUrl;
 
                 string formDigestValue, libraryName = string.Empty, caseFolderName = string.Empty;
-                var restClient = RestClient(targetSiteUrl, archiveModel.Username, archiveModel.Password, out formDigestValue);
+                var restClient = RestClientObj(targetSiteUrl, archiveModel.Username, archiveModel.Password, out formDigestValue);
 
                 int localeId = GetLocaleId(restClient);
 
@@ -1038,7 +1038,7 @@ namespace Advokatforeningen.Archive.Api.Repositories
         private static void RemoveFolderPermissions(string listTitle, int listItemId, string groupId, ArchiveCredentialModel archiveModel)
         {
             string formDigestValue;
-            var rc = RestClient(archiveModel.BaseSiteUrl, archiveModel.Username, archiveModel.Password, out formDigestValue);
+            var rc = RestClientObj(archiveModel.BaseSiteUrl, archiveModel.Username, archiveModel.Password, out formDigestValue);
 
             RestRequest request = new RestRequest("web/lists/getbytitle('" + listTitle + "')/Items(" + listItemId + ")/roleassignments/getbyprincipalid('" + groupId + "')", Method.POST)
             {
@@ -1067,7 +1067,7 @@ namespace Advokatforeningen.Archive.Api.Repositories
         /// <param name="password"></param>
         /// <param name="formDigestValue"></param>
         /// <returns></returns>
-        private static RestClient RestClient(string baseSiteUrl, string user, string password, out string formDigestValue)
+        private static RestClient RestClientObj(string baseSiteUrl, string user, string password, out string formDigestValue)
         {
             RestClient restClient = new RestClient(baseSiteUrl)
             {
@@ -1095,7 +1095,7 @@ namespace Advokatforeningen.Archive.Api.Repositories
         private static string GetTargetGroupId(ArchiveCredentialModel archiveModel, string groupName)
         {
             string formDigestValue;
-            var restClient = RestClient(archiveModel.BaseSiteUrl, archiveModel.Username, archiveModel.Password, out formDigestValue);
+            var restClient = RestClientObj(archiveModel.BaseSiteUrl, archiveModel.Username, archiveModel.Password, out formDigestValue);
 
             RestRequest request = new RestRequest("web/sitegroups/getbyname('" + groupName.Trim() + "')/id", Method.GET)
             {
