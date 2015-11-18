@@ -71,6 +71,12 @@ namespace Advokatforeningen.Archive.Api.Repositories
             }
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="caseId"></param>
+        /// <param name="archiveModel"></param>
+        /// <returns></returns>
         public string CreateCaseFolder(int caseId, ArchiveCredentialModel archiveModel)
         {
             //string siteUrl = archiveModel.BaseSiteUrl;
