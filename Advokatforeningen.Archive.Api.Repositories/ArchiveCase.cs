@@ -542,7 +542,7 @@ namespace Advokatforeningen.Archive.Api.Repositories
                 objArchiveModel.BaseSiteUrl += "/" + KeywordApi;
 
             string formDigestValue, libraryName = string.Empty, documentStatus = string.Empty;
-            var restClient = RestClient(objArchiveModel.BaseSiteUrl, objArchiveModel.Username, objArchiveModel.Password, out formDigestValue);
+            RestClient restClient = RestClient(objArchiveModel.BaseSiteUrl, objArchiveModel.Username, objArchiveModel.Password, out formDigestValue);
 
             int localeId = GetLocaleId(restClient);
 
@@ -601,7 +601,7 @@ namespace Advokatforeningen.Archive.Api.Repositories
                 archiveModel.BaseSiteUrl += "/" + KeywordApi;
 
             string formDigestValue, libraryName = string.Empty, documentStatusValue = string.Empty;
-            var restClient = RestClient(archiveModel.BaseSiteUrl, archiveModel.Username, archiveModel.Password, out formDigestValue);
+            RestClient restClient = RestClient(archiveModel.BaseSiteUrl, archiveModel.Username, archiveModel.Password, out formDigestValue);
 
             int localeId = GetLocaleId(restClient);
 
