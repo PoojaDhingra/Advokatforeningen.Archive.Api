@@ -29,11 +29,10 @@
         internal const string UtvalgReaderGroup = "Advokatklageordningen-Utvalg-Lese";
         internal const string OwnersGroup = "Advokatklageordningen-Owners";
 
-        //internal const string LibraryName = "Saksdokumenter";
         internal const string NemndResource = "nemnd";
-
         internal const string UtvalgResource = "utvalg";
 
+        //internal const string LibraryName = "Saksdokumenter";
         //internal const string DocumentLibraryName = "Dokumenter";
         //internal const string ContributeRoleDefinitionId = "1073741827";
 
