@@ -875,6 +875,11 @@ namespace Advokatforeningen.Archive.Api.Repositories
             return resultData;
         }
 
+        public string CaseIdToArchive(int caseIdToArchive)
+        {
+            return null;
+        }
+
         //******************************************************************************************************************************************************************//
 
         /// <summary>

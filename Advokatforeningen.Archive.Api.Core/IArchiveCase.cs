@@ -19,7 +19,9 @@ namespace Advokatforeningen.Archive.Api.Core
 
         string UpdateCaseDocumentMetadata(string documentId, ArchiveCaseDocumentModel fileMetadataObj, ArchiveCredentialModel objArchiveModel);
 
-        string CopyCaseDocuments(int sourceCaseId, int destinationCaseId, ArchiveCredentialModel objArchiveModel, string copyFlag);//string folderName,
+        string CopyCaseDocuments(int sourceCaseId, int destinationCaseId, ArchiveCredentialModel objArchiveModel, string copyFlag);
+
+        string CaseIdToArchive(int caseIdToArchive);
 
         //List<ArchiveCaseDocumentDetailModel> GetDocumentByContradictionDecisionId(string contradictionIdDecisionId, ArchiveCredentialModel objArchiveModel);
     }

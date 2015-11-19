@@ -713,6 +713,49 @@ namespace Advokatforeningen.Archive.Api.Controllers
             }
         }
 
+        /// <summary>
+        /// Archive case to Record Center
+        /// </summary>
+        /// <remarks>
+        /// Archive case by creating case structure
+        /// and moving all case documents into record center
+        /// </remarks>
+        /// <param name="caseIdToArchive"></param>
+        /// <returns></returns>
+        [Route("{caseIdToArchive:int:min(10000)}")]
+        [HttpPost]
+        public HttpResponseMessage ArchiveCase(int caseIdToArchive)
+        {
+            try
+            {
+                JToken json = JObject.Parse(_objArchiveCase.CaseIdToArchive(caseIdToArchive));
+                HttpResponseMessage response = null;
+                if (!ReferenceEquals(json, null))
+                {
+                    string responseData = Convert.ToString(json["response"]);
+                    return response;
+                }
+                return response;
+            }
+            catch (HttpResponseException ex)
+            {
+                throw new HttpResponseException(new HttpResponseMessage
+                {
+                    StatusCode = ex.Response.StatusCode,
+                    Content = ex.Response.Content,
+                    ReasonPhrase = ex.Response.ReasonPhrase
+                });
+            }
+            catch (Exception ex)
+            {
+                throw new HttpResponseException(new HttpResponseMessage
+                {
+                    StatusCode = HttpStatusCode.InternalServerError,
+                    Content = new StringContent(ex.Message)
+                });
+            }
+        }
+
         #endregion public controller methods
     }
 }
