@@ -20,10 +20,9 @@
         //internal const string UtvalgContributorGroup = "KJ.ND.App.SP.SaksbehandlerDisiplinærutvalg.Contribute";
         //internal const string UtvalgOwnerGroup = "KJ.ND.App.SP.SaksbehandlerDisiplinærutvalg.Owner";
         //internal const string LosningGroup = "KJ.ND.App.SP.SaksbehandlerDisiplinærløsning.Contribute";
-
         //internal const string AllContributeGroup = "Advokatklageordningen-Alle-Bidra";
-        internal const string UtvalgContributeGroup = "Advokatklageordningen-Utvalg-Bidra";
 
+        internal const string UtvalgContributeGroup = "Advokatklageordningen-Utvalg-Bidra";
         internal const string NemndContributeGroup = "Advokatklageordningen-Nemnd-Bidra";
         internal const string ReadersGroup = "Advokatklageordningen-Alle-Lese";
         internal const string NemndReaderGroup = "Advokatklageordningen-Nemnd-Lese";
