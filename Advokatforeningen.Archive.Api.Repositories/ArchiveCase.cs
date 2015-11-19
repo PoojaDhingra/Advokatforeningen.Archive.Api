@@ -16,6 +16,12 @@ namespace Advokatforeningen.Archive.Api.Repositories
     {
         #region public methods
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="caseId"></param>
+        /// <param name="objArchiveModel"></param>
+        /// <returns></returns>
         public string GetCaseFolderDetails(int caseId, ArchiveCredentialModel objArchiveModel)
         {
             string siteUrl = objArchiveModel.BaseSiteUrl;
