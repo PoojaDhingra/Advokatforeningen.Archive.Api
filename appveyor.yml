@@ -1,14 +1,1 @@
-version: 1.0.{build}
-nuget:
-  account_feed: true
-  project_feed: true
-build:
-  publish_wap: true
-  publish_nuget: true
-  publish_nuget_symbols: true
-  include_nuget_references: true
-  verbosity: minimal
-deploy:
-- provider: GitHub
-  auth_token:
-    secure: JUYzw0XWbwKyC0oXr5n8gITHK557qvwCDRa3lnHFdXJqNg3rS/NQqmYwoDpI58m2
+
