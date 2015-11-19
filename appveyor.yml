@@ -3,7 +3,8 @@ branches:
   only:
   - master
 skip_tags: true
-clone_folder: c:\projects\vikas\ArchiveApi
+configuration: Release
+platform: Any CPU
 nuget:
   account_feed: true
   project_feed: true
