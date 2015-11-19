@@ -2,7 +2,6 @@
 using Advokatforeningen.Archive.Api.Model;
 using Newtonsoft.Json.Linq;
 using RestSharp;
-using RestSharp.Authenticators;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -1053,7 +1052,7 @@ namespace Advokatforeningen.Archive.Api.Repositories
         {
             RestClient restClient = new RestClient(baseSiteUrl)
             {
-                Authenticator = new NtlmAuthenticator(user, password)
+                Authenticator = new RestSharp.Authenticators.NtlmAuthenticator(user, password)
             };
 
             RestRequest request = new RestRequest("contextinfo?$select=FormDigestValue", Method.POST);
