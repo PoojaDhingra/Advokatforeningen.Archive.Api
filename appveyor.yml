@@ -4,8 +4,6 @@ branches:
   - master
 skip_tags: true
 clone_folder: c:\projects\vikas\ArchiveApi
-init:
-- cmd: '- git config --global core.autocrlf input'
 nuget:
   account_feed: true
   project_feed: true
