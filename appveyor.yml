@@ -1,14 +1,26 @@
 version: 1.0.{build}
+branches:
+  only:
+  - master
+skip_tags: true
+configuration: Release
+platform: Any CPU
+assembly_info:
+  patch: true
+  file: '**\AssemblyInfo.*'
+  assembly_version: 2.0.{build}
+  assembly_file_version: '{version}'
+  assembly_informational_version: '{version}'
 nuget:
   account_feed: true
   project_feed: true
 build:
   publish_wap: true
-  publish_nuget: true
-  publish_nuget_symbols: true
-  include_nuget_references: true
   verbosity: minimal
 deploy:
 - provider: GitHub
   auth_token:
     secure: JUYzw0XWbwKyC0oXr5n8gITHK557qvwCDRa3lnHFdXJqNg3rS/NQqmYwoDpI58m2
+  artifact: /.*\.nupkg/
+  on:
+    branch: master
