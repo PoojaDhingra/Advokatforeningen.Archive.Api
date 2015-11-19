@@ -1047,7 +1047,7 @@ namespace Advokatforeningen.Archive.Api.Repositories
         }
 
         /// <summary>
-        /// Get the Rest Client
+        /// Get the Rest Client Object
         /// </summary>
         /// <param name="baseSiteUrl"></param>
         /// <param name="user"></param>
