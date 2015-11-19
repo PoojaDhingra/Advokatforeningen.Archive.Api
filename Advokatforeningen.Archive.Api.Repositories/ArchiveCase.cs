@@ -1029,18 +1029,18 @@ namespace Advokatforeningen.Archive.Api.Repositories
         #region private methods
 
         /// <summary>
-        /// gets the locale id
+        /// gets the current locale id
         /// </summary>
         /// <param name="rc"></param>
         /// <returns></returns>
-        private static int GetLocaleId(RestClient rc)
+        private static int GetLocaleId(RestClient restClient)
         {
             RestRequest request = new RestRequest("web/language", Method.GET)
             {
                 RequestFormat = DataFormat.Json
             };
             request.AddHeader(Accept, AcceptHeaderVal);
-            IRestResponse response = rc.Execute(request);
+            IRestResponse response = restClient.Execute(request);
             string content = response.Content;
             JObject jobj = JObject.Parse(content);
             return Convert.ToInt32(jobj["d"]["Language"]);
