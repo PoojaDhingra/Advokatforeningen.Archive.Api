@@ -5,6 +5,12 @@ branches:
 skip_tags: true
 configuration: Release
 platform: Any CPU
+assembly_info:
+  patch: true
+  file: '**\AssemblyInfo.*'
+  assembly_version: 2.2.{build}
+  assembly_file_version: '{version}'
+  assembly_informational_version: '{version}'
 nuget:
   account_feed: true
   project_feed: true
