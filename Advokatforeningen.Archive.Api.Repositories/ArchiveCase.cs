@@ -669,7 +669,7 @@ namespace Advokatforeningen.Archive.Api.Repositories
             else
                 archiveModel.BaseSiteUrl += "/" + KeywordApi;
 
-            string formDigestValue, libraryName = string.Empty, recordCenterLibrary = string.Empty, caseFolderName = string.Empty;
+            string formDigestValue, libraryName = string.Empty, caseFolderName = string.Empty;//recordCenterLibrary = string.Empty,
             var restClient = RestClientObj(archiveModel.BaseSiteUrl, archiveModel.Username, archiveModel.Password, out formDigestValue);
 
             int localeId = GetLocaleId(restClient);
@@ -677,13 +677,13 @@ namespace Advokatforeningen.Archive.Api.Repositories
             {
                 libraryName = DocumentLibraryNo;
                 caseFolderName = CaseFolderNameNo;
-                recordCenterLibrary = "RecordCenter";
+                //recordCenterLibrary = "RecordCenter";
             }
             else if (Equals(localeId, EnglishUsLocaleId))
             {
                 libraryName = DocumentLibraryEn;
                 caseFolderName = CaseFolderNameEn;
-                recordCenterLibrary = "RecordCenter";   // assign norwegian name
+                //recordCenterLibrary = "RecordCenter";   // assign norwegian name
             }
 
             if (!relativeUrl.EndsWith("/", StringComparison.Ordinal))
@@ -700,7 +700,7 @@ namespace Advokatforeningen.Archive.Api.Repositories
 
             if (copyFlag.ToLower().Equals("RecordCenter".ToLower()))
             {
-                recordCenterCurrentYearLib = "Archives1" + DateTime.Now.Year;
+                recordCenterCurrentYearLib = DateTime.Now.Year.ToString();
                 request = new RestRequest("web/lists/getbytitle('" + recordCenterCurrentYearLib + "')/title", Method.GET)
                 {
                     RequestFormat = DataFormat.Json
@@ -721,38 +721,9 @@ namespace Advokatforeningen.Archive.Api.Repositories
                     sourceServerRelativeUrl = string.Concat(baseServerRelativeUrl.Replace("@@", recordCenterCurrentYearLib), "##");
                     destinationServerRelativeUrl = string.Concat(baseServerRelativeUrl.Replace("@@", libraryName), caseFolderName, "/##");
                 }
-                else
+                else if (results.ToLower().Equals("-1, System.ArgumentException".ToLower()))
                 {
-                    // TODO: create library, add custom content type and set as default.
-
-                    string body = string.Concat("{'__metadata':{'type':'SP.List'},",
-                                 "'AllowContentTypes': true,",
-                                 "'ContentTypesEnabled': true,",
-                                 "'Description': 'Library to archive documents',",
-                                 "'Title':'" + recordCenterCurrentYearLib + "',",
-                                 "'BaseTemplate':'{00BFEA71-E717-4E80-AA17-D0C71B360101}'}");
-
-                    request = new RestRequest("web/lists", Method.POST)
-                    {
-                        RequestFormat = DataFormat.Json
-                    };
-                    request.AddHeader(Accept, AcceptHeaderVal);
-                    request.AddHeader(RequestDigest, formDigestValue);
-                    request.AddParameter(AcceptHeaderVal, body, ParameterType.RequestBody);
-
-                    IRestResponse updateResponse = restClient.Execute(request);
-
-                    //body = "'contentTypeId': '0x01010085E008E5914A496797B08340036D67D4'";
-
-                    //request = new RestRequest("web/lists/GetByTitle('" + recordCenterCurrentYearLib + "')/ContentTypes/AddAvailableContentType('0x01010085E008E5914A496797B08340036D67D4')", Method.POST)
-                    //{
-                    //    RequestFormat = DataFormat.Json
-                    //};
-                    //request.AddHeader(Accept, AcceptHeaderVal);
-                    //request.AddHeader(RequestDigest, formDigestValue);
-                    ////request.AddParameter(AcceptHeaderVal, body, ParameterType.RequestBody);
-
-                    //IRestResponse updateResponse1 = restClient.Execute(request);
+                    return "{\"response\":\"Library: '" + recordCenterCurrentYearLib + "' does not exists\"}";
                 }
             }
             else if (copyFlag.ToLower().Equals("NotRecordCenter".ToLower()))

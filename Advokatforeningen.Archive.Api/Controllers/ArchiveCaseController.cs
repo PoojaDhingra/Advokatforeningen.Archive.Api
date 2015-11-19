@@ -170,7 +170,8 @@ namespace Advokatforeningen.Archive.Api.Controllers
 
                 if (!ReferenceEquals(json, null))
                 {
-                    if (Convert.ToString(json["response"]).ToLower().Equals("error".ToLower()))
+                    string responseData = Convert.ToString(json["response"]);
+                    if (responseData.ToLower().Equals("error".ToLower()))
                     {
                         HttpResponseMessage resp = new HttpResponseMessage
                         {
@@ -181,7 +182,7 @@ namespace Advokatforeningen.Archive.Api.Controllers
                         throw new HttpResponseException(resp);
                     }
 
-                    if (Convert.ToString(json["response"]).ToLower().Equals("Wrong Authority name entered".ToLower()))
+                    if (responseData.ToLower().Equals("Wrong Authority name entered".ToLower()))
                     {
                         HttpResponseMessage resp = new HttpResponseMessage
                         {
@@ -458,7 +459,8 @@ namespace Advokatforeningen.Archive.Api.Controllers
 
                 if (!ReferenceEquals(json, null))
                 {
-                    if (Convert.ToString(json["response"]).ToLower().Equals("Document does not exists".ToLower()))
+                    string responseData = Convert.ToString(json["response"]);
+                    if (responseData.ToLower().Equals("Document does not exists".ToLower()))
                     {
                         response = new HttpResponseMessage
                         {
@@ -483,7 +485,7 @@ namespace Advokatforeningen.Archive.Api.Controllers
                     //HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.NoContent, json);
                     //return Request.CreateResponse(HttpStatusCode.NoContent, json);
 
-                    if (Convert.ToString(json["response"]).Equals("Case status updated successfully".ToLower()))
+                    if (responseData.ToLower().Equals("Case status updated successfully".ToLower()))
                         return Request.CreateResponse(HttpStatusCode.NoContent, json);
                     return Request.CreateResponse(HttpStatusCode.InternalServerError, json);
                 }
@@ -605,7 +607,19 @@ namespace Advokatforeningen.Archive.Api.Controllers
                 HttpResponseMessage response = null;
                 if (!ReferenceEquals(json, null))
                 {
-                    if (Convert.ToString(json["response"]).ToLower().Equals("Source Case Folder Does not exists".ToLower()))
+                    string responseData = Convert.ToString(json["response"]);
+                    if (responseData.ToLower().StartsWith("Library:".ToLower(), StringComparison.Ordinal))
+                    {
+                        response = new HttpResponseMessage
+                        {
+                            StatusCode = HttpStatusCode.NotFound,
+                            Content = new StringContent(responseData),
+                            ReasonPhrase = "Library does not exists"
+                        };
+                        throw new HttpResponseException(response);
+                    }
+
+                    if (responseData.ToLower().Equals("Source Case Folder Does not exists".ToLower()))
                     {
                         response = new HttpResponseMessage
                         {
@@ -616,7 +630,7 @@ namespace Advokatforeningen.Archive.Api.Controllers
                         throw new HttpResponseException(response);
                     }
 
-                    if (Convert.ToString(json["response"]).ToLower().Equals("Destination Case Folder Does not exists".ToLower()))
+                    if (responseData.ToLower().Equals("Destination Case Folder Does not exists".ToLower()))
                     {
                         response = new HttpResponseMessage
                         {
@@ -627,7 +641,7 @@ namespace Advokatforeningen.Archive.Api.Controllers
                         throw new HttpResponseException(response);
                     }
 
-                    if (Convert.ToString(json["response"]).ToLower().Equals("Folder Does not exists under Source Case".ToLower()))
+                    if (responseData.ToLower().Equals("Folder Does not exists under Source Case".ToLower()))
                     {
                         response = new HttpResponseMessage
                         {
@@ -638,7 +652,7 @@ namespace Advokatforeningen.Archive.Api.Controllers
                         throw new HttpResponseException(response);
                     }
 
-                    if (Convert.ToString(json["response"]).ToLower().Equals("Folder Does not exists under Destination Case".ToLower()))
+                    if (responseData.ToLower().Equals("Folder Does not exists under Destination Case".ToLower()))
                     {
                         response = new HttpResponseMessage
                         {
@@ -648,7 +662,7 @@ namespace Advokatforeningen.Archive.Api.Controllers
                         };
                         throw new HttpResponseException(response);
                     }
-                    if (Convert.ToString(json["response"]).ToLower().Contains("No Documents".ToLower()) && Convert.ToString(json["response"]).ToLower().Contains("Case Documents copied successfully".ToLower()))
+                    if (responseData.ToLower().Contains("No Documents".ToLower()) && Convert.ToString(json["response"]).ToLower().Contains("Case Documents copied successfully".ToLower()))
                     {
                         response = new HttpResponseMessage
                         {
@@ -658,7 +672,7 @@ namespace Advokatforeningen.Archive.Api.Controllers
                         };
                         throw new HttpResponseException(response);
                     }
-                    if (Convert.ToString(json["response"]).ToLower().Equals("No Documents".ToLower()))
+                    if (responseData.ToLower().Equals("No Documents".ToLower()))
                     {
                         response = new HttpResponseMessage
                         {
@@ -669,7 +683,7 @@ namespace Advokatforeningen.Archive.Api.Controllers
                         throw new HttpResponseException(response);
                     }
 
-                    if (Convert.ToString(json["response"]).ToLower().Equals("Case Documents copied successfully".ToLower()))
+                    if (responseData.ToLower().Equals("Case Documents copied successfully".ToLower()))
                     {
                         response = Request.CreateResponse(HttpStatusCode.OK, json);
                     }
