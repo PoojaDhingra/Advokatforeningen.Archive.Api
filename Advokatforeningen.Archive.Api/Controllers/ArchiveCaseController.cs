@@ -722,18 +722,88 @@ namespace Advokatforeningen.Archive.Api.Controllers
         /// </remarks>
         /// <param name="caseIdToArchive"></param>
         /// <returns></returns>
-        [Route("{caseIdToArchive:int:min(10000)}")]
+        [Route("~/Archives/Archive/{caseIdToArchive:int:min(10000)}")]
         [HttpPost]
         public HttpResponseMessage ArchiveCase(int caseIdToArchive)
         {
             try
             {
-                JToken json = JObject.Parse(_objArchiveCase.CaseIdToArchive(caseIdToArchive));
+                JToken json = JObject.Parse(_objArchiveCase.CaseToArchive(caseIdToArchive, _objArchiveModel));
                 HttpResponseMessage response = null;
                 if (!ReferenceEquals(json, null))
                 {
-                    string responseData = Convert.ToString(json["response"]);
-                    return response;
+                    if (!ReferenceEquals(json, null))
+                    {
+                        string responseData = Convert.ToString(json["response"]);
+                        if (responseData.ToLower().StartsWith("Library:".ToLower(), StringComparison.Ordinal))
+                        {
+                            response = new HttpResponseMessage
+                            {
+                                StatusCode = HttpStatusCode.NotFound,
+                                Content = new StringContent(responseData),
+                                ReasonPhrase = "Library does not exists"
+                            };
+                            throw new HttpResponseException(response);
+                        }
+
+                        if (responseData.ToLower().Equals("Source Case Folder Does not exists".ToLower()))
+                        {
+                            response = new HttpResponseMessage
+                            {
+                                StatusCode = HttpStatusCode.NotFound,
+                                Content = new StringContent($"Case with title = {caseIdToArchive} does not exists"),
+                                ReasonPhrase = "Case folder does not exists"
+                            };
+                            throw new HttpResponseException(response);
+                        }
+
+                        if (responseData.ToLower().StartsWith("Case already archived at:".ToLower(), StringComparison.Ordinal))
+                        {
+                            response = new HttpResponseMessage
+                            {
+                                StatusCode = HttpStatusCode.NotFound,
+                                Content = new StringContent($"Case with title = {caseIdToArchive} already archived"),
+                                ReasonPhrase = "Case already archived"
+                            };
+
+                            char[] delimiters = { ':' };
+                            //response.Headers.Location = new Uri(responseData.Split(delimiters, StringSplitOptions.RemoveEmptyEntries)[1]);
+                            response.Headers.Add("ArchivedCaseServerRelativeUrl", responseData.Split(delimiters, StringSplitOptions.RemoveEmptyEntries)[1]);
+                            //throw new HttpResponseException(response);
+                            return response;
+                        }
+
+                        if (responseData.ToLower().Equals("Folder Does not exists under Destination Case".ToLower()))
+                        {
+                            response = new HttpResponseMessage
+                            {
+                                StatusCode = HttpStatusCode.NotFound,
+                                Content = new StringContent("Folder Does not exists under Destination Case"),
+                                ReasonPhrase = "Folder Does not exists under Destination Case"
+                            };
+                            throw new HttpResponseException(response);
+                        }
+
+                        //if (responseData.ToLower().Contains("No Documents".ToLower()))
+                        //{
+                        //    response = new HttpResponseMessage
+                        //    {
+                        //        StatusCode = HttpStatusCode.NotFound,
+                        //        Content = new StringContent("There are no documents"),
+                        //        ReasonPhrase = "There are no documents"
+                        //    };
+                        //    throw new HttpResponseException(response);
+                        //}
+
+                        if (responseData.ToLower().Equals("Case Documents moved and archived successfully".ToLower()))
+                        {
+                            response = Request.CreateResponse(HttpStatusCode.OK, json);
+                        }
+                        else
+                        {
+                            response = Request.CreateResponse(HttpStatusCode.OK, json);
+                        }
+                    }
                 }
                 return response;
             }
