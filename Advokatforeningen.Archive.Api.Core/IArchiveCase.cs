@@ -21,7 +21,7 @@ namespace Advokatforeningen.Archive.Api.Core
 
         string CopyCaseDocuments(int sourceCaseId, int destinationCaseId, ArchiveCredentialModel objArchiveModel, string copyFlag);
 
-        string CaseIdToArchive(int caseIdToArchive);
+        string CaseToArchive(int caseIdToArchive, ArchiveCredentialModel objArchiveModel);
 
         //List<ArchiveCaseDocumentDetailModel> GetDocumentByContradictionDecisionId(string contradictionIdDecisionId, ArchiveCredentialModel objArchiveModel);
     }
