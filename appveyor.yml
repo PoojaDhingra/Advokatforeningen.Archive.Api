@@ -17,6 +17,9 @@ nuget:
   project_feed: true
 build:
   publish_wap: true
+  publish_nuget: true
+  publish_nuget_symbols: true
+  include_nuget_references: true
   parallel: true
   verbosity: minimal
 deploy:
