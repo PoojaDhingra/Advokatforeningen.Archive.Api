@@ -16,7 +16,7 @@ nuget:
   account_feed: true
   project_feed: true
 before_build:
-- cmd: nuget restore C:\CE15133\Advokatforeningen.Archive.Api\ApiNew\Advokatforeningen.Archive.Api\Advokatforeningen.Archive.Api.sln
+- cmd: nuget restore C:\projects\advokatforeningen-archive-api\Advokatforeningen.Archive.Api.sln
 build:
   publish_wap: true
   publish_nuget: true
