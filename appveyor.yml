@@ -3,7 +3,7 @@ branches:
   only:
   - master
 skip_tags: true
-os: Visual Studio 2015
+os: Windows Server 2012 R2
 configuration: Release
 platform: Any CPU
 assembly_info:
