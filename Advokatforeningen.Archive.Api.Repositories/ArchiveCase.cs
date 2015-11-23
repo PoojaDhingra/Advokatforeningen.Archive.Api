@@ -493,8 +493,8 @@ namespace Advokatforeningen.Archive.Api.Repositories
                     };
                     request.AddHeader(Accept, AcceptHeaderVal);
                     request.AddHeader(ContentType, AcceptHeaderVal);
-                    request.AddHeader("X-HTTP-Method", Method.MERGE.ToString());
-                    request.AddHeader("IF-MATCH", listItemDetailObj.ETag);
+                    request.AddHeader(HttpMethod, Method.MERGE.ToString());
+                    request.AddHeader(IfMatch, listItemDetailObj.ETag);
                     request.AddHeader(RequestDigest, formDigestValue);
                     request.AddParameter(AcceptHeaderVal, body, ParameterType.RequestBody);
                     //IRestResponse updateResponse = restClient.Execute(request);
@@ -584,8 +584,8 @@ namespace Advokatforeningen.Archive.Api.Repositories
                 };
                 request.AddHeader(Accept, AcceptHeaderVal);
                 request.AddHeader(ContentType, AcceptHeaderVal);
-                request.AddHeader("X-HTTP-Method", Method.MERGE.ToString());
-                request.AddHeader("IF-MATCH", listItemDetailObj.ETag);
+                request.AddHeader(HttpMethod, Method.MERGE.ToString());
+                request.AddHeader(IfMatch, listItemDetailObj.ETag);
                 request.AddHeader(RequestDigest, formDigestValue);
                 request.AddParameter(AcceptHeaderVal, body, ParameterType.RequestBody);
                 IRestResponse response = restClient.Execute(request);
@@ -655,8 +655,8 @@ namespace Advokatforeningen.Archive.Api.Repositories
                         };
                     request.AddHeader(Accept, AcceptHeaderVal);
                     request.AddHeader(ContentType, AcceptHeaderVal);
-                    request.AddHeader("X-HTTP-Method", Method.MERGE.ToString());
-                    request.AddHeader("IF-MATCH", listItemDetailObj.ETag);
+                    request.AddHeader(HttpMethod, Method.MERGE.ToString());
+                    request.AddHeader(IfMatch, listItemDetailObj.ETag);
                     request.AddHeader(RequestDigest, formDigestValue);
                     request.AddParameter(AcceptHeaderVal, body, ParameterType.RequestBody);
                     IRestResponse response = restClient.Execute(request);
@@ -1037,18 +1037,21 @@ namespace Advokatforeningen.Archive.Api.Repositories
                                             caseResult += string.Empty;
                                         }
                                     }
-                                    if (resultData.Equals("Case Documents moved and archived successfully"))
-                                    {
-                                        resultData = string.IsNullOrEmpty(caseResult)
-                                                                    ? "Case Documents moved and archived successfully"
-                                                                    : "sError- Try again";
-                                    }
-                                    else
-                                    {
-                                        resultData = string.IsNullOrEmpty(caseResult)
-                                                                    ? resultData + "Case Documents moved and archived successfully"
-                                                                    : resultData + "Error- Try again";
-                                    }
+
+                                    // TODO: rethink on this.
+                                    //if (resultData.Equals("Case Documents moved and archived successfully"))
+                                    //{
+                                    //    resultData = string.IsNullOrEmpty(caseResult)
+                                    //                                ? "Case Documents moved and archived successfully"
+                                    //                                : "sError- Try again";
+                                    //}
+                                    //else
+                                    //{
+                                    //    resultData = string.IsNullOrEmpty(caseResult)
+                                    //                                ? resultData + "Case Documents moved and archived successfully"
+                                    //                                : resultData + "Error- Try again";
+                                    //}
+                                    // TODO
                                 }
                                 //else
                                 //{
@@ -1067,6 +1070,19 @@ namespace Advokatforeningen.Archive.Api.Repositories
                                 resultData = "Folder Does not exists under Destination Case";
                             }
                         }
+
+                        // TODO: delete source case folder now;
+                        request = new RestRequest("web/GetFolderByServerRelativeUrl('" + sourceCaseFolderServerRelativeUrl + "')", Method.POST)
+                        {
+                            RequestFormat = DataFormat.Json
+                        };
+                        request.AddHeader(Accept, AcceptHeaderVal);
+                        request.AddHeader(HttpMethod, Method.DELETE.ToString());
+                        request.AddHeader(IfMatch, srcCaseFolderDetailVal.ETag);
+                        request.AddHeader(RequestDigest, formDigestValue);
+
+                        response = restClient.Execute(request);
+                        resultData = string.IsNullOrEmpty(response.Content) ? "Case Documents moved and archived successfully" : "Error- Try again";
                     }
                 }
                 else
@@ -1221,8 +1237,8 @@ namespace Advokatforeningen.Archive.Api.Repositories
             };
             request.AddHeader(Accept, AcceptHeaderVal);
             request.AddHeader(ContentType, AcceptHeaderVal);
-            request.AddHeader("X-RequestDigest", formDigestValue);
-            request.AddHeader("X-HTTP-Method", "DELETE");
+            request.AddHeader(RequestDigest, formDigestValue);
+            request.AddHeader(HttpMethod, Method.DELETE.ToString());
             //IRestResponse response = rc.Execute(request);
             rc.Execute(request);
             //string content = response.Content;

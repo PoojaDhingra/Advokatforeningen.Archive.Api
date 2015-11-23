@@ -58,6 +58,8 @@ namespace Advokatforeningen.Archive.Api.Repositories.Utilities
         internal const string AcceptHeaderVal = "application/json;odata=verbose";
 
         internal const string RequestDigest = "X-RequestDigest";
+        internal const string HttpMethod = "X-HTTP-Method";
+        internal const string IfMatch = "IF-MATCH";
         internal const string ContentType = "Content-Type";
         internal const string BinaryStringRequestBody = "binaryStringRequestBody";
 
