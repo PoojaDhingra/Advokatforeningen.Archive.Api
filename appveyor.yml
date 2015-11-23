@@ -19,7 +19,7 @@ before_build:
 - cmd: >-
     appveyor DownloadFile https://dist.nuget.org/win-x86-commandline/v3.2.0-rc/nuget.exe
 
-    nuget-restore
+    nuget-restore C:\projects\advokatforeningen-archive-api\Advokatforeningen.Archive.Api.sln
 build:
   publish_wap: true
   publish_nuget: true
