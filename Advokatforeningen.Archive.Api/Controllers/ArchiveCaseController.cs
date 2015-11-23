@@ -799,10 +799,10 @@ namespace Advokatforeningen.Archive.Api.Controllers
                         {
                             response = Request.CreateResponse(HttpStatusCode.OK, json);
                         }
-                        else
-                        {
-                            response = Request.CreateResponse(HttpStatusCode.OK, json);
-                        }
+                        //else
+                        //{
+                        //    response = Request.CreateResponse(HttpStatusCode.OK, json);
+                        //}
                     }
                 }
                 return response;
