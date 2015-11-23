@@ -16,6 +16,7 @@ nuget:
   project_feed: true
 build:
   publish_wap: true
+  parallel: true
   verbosity: minimal
 deploy:
 - provider: GitHub
