@@ -3,7 +3,7 @@ branches:
   only:
   - master
 skip_tags: true
-os: Visual Studio 2015 CTP 6
+os: Visual Studio 2015
 configuration: Release
 platform: Any CPU
 assembly_info:
@@ -15,8 +15,13 @@ assembly_info:
 nuget:
   account_feed: true
   project_feed: true
+before_build:
+- cmd: nuget restore C:\projects\advokatforeningen-archive-api\Advokatforeningen.Archive.Api.sln
 build:
   publish_wap: true
+  publish_nuget: true
+  publish_nuget_symbols: true
+  include_nuget_references: true
   parallel: true
   verbosity: minimal
 deploy:
