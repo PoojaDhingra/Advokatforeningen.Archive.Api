@@ -6,6 +6,7 @@ skip_tags: true
 os: Visual Studio 2015
 configuration: Release
 platform: Any CPU
+clone_folder: C:\Process Pilotene
 assembly_info:
   patch: true
   file: '**\AssemblyInfo.*'
@@ -29,9 +30,6 @@ build:
   include_nuget_references: true
   parallel: true
   verbosity: minimal
-artifacts:
-- path: ProcessPilotene.zip
-  name: Release
 deploy:
 - provider: GitHub
   auth_token:
