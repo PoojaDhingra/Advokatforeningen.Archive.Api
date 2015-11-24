@@ -28,9 +28,9 @@ namespace Advokatforeningen.Archive.Api.Tests
 
         #endregion Constructor
 
-        #region GetCaseFolderSetails
+        #region GetCaseFolderDetails
 
-        [TestMethod]
+        [TestMethod, TestCategory("GetCaseFolderDetails")]
         public void GetCaseFolderDetails_Int()
         {
             const int caseId = 10000;
@@ -38,11 +38,11 @@ namespace Advokatforeningen.Archive.Api.Tests
             archiveCaseController.GetCaseFolderDetails(caseId, _objArchiveModel);
         }
 
-        #endregion GetCaseFolderSetails
+        #endregion GetCaseFolderDetails
 
         #region CreateCaseFolders
 
-        [TestMethod]
+        [TestMethod, TestCategory("CreateCaseFolders")]
         public void CreateCaseFolder_Int()
         {
             const int caseId = 10000;
