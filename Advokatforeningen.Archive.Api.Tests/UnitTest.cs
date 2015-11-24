@@ -23,7 +23,6 @@ namespace Advokatforeningen.Archive.Api.Tests
                 BaseSiteUrl = Convert.ToString(ConfigurationManager.AppSettings["BaseSiteUrl"]),
                 Username = Convert.ToString(ConfigurationManager.AppSettings["UserName"]),
                 Password = Convert.ToString(ConfigurationManager.AppSettings["Password"])
-                //Domain = Convert.ToString(ConfigurationManager.AppSettings["Domain"])
             };
         }
 
