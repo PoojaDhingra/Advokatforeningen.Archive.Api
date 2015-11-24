@@ -36,6 +36,10 @@ test:
   - Advokatforeningen.Archive.Api\Advokatforeningen.Archive.Api.Tests\bin\Debug\Advokatforeningen.Archive.Api.Model.dll
   - Advokatforeningen.Archive.Api\Advokatforeningen.Archive.Api.Tests\bin\Debug\Advokatforeningen.Archive.Api.Repositories.dll
   - Advokatforeningen.Archive.Api\Advokatforeningen.Archive.Api.Tests\bin\Debug\Advokatforeningen.Archive.Api.Tests.dll
+  categories:
+    only:
+    - A
+    - B
 artifacts:
 - path: Advokatforeningen.Archive.Api.zip
   name: Release
