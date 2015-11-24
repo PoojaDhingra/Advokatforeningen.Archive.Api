@@ -37,7 +37,7 @@ test:
   - Advokatforeningen.Archive.Api\Advokatforeningen.Archive.Api.Tests\bin\Debug\Advokatforeningen.Archive.Api.Repositories.dll
   - Advokatforeningen.Archive.Api\Advokatforeningen.Archive.Api.Tests\bin\Debug\Advokatforeningen.Archive.Api.Tests.dll
 artifacts:
-- path: ProcessPilotene.zip
+- path: Advokatforeningen.Archive.Api.zip
   name: Release
   type: WebDeployPackage
 deploy:
