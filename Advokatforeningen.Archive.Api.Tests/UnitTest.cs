@@ -73,7 +73,7 @@ namespace Advokatforeningen.Archive.Api.Tests
             archiveCaseController.SetPermission(caseId, folderName, _objArchiveModel);
         }
 
-        //this is not executed
+        //TODO: check this is not executed
         [TestMethod]
         public void SetPermissions_Utvalg_UpperCase()
         {
