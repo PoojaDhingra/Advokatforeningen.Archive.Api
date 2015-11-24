@@ -30,7 +30,7 @@ namespace Advokatforeningen.Archive.Api.Tests
 
         #region GetCaseFolderSetails
 
-        [TestMethod]
+        [TestMethod, TestCategory("A")]
         public void GetCaseFolderDetails_Int()
         {
             const int caseId = 10000;
@@ -42,7 +42,7 @@ namespace Advokatforeningen.Archive.Api.Tests
 
         #region CreateCaseFolders
 
-        [TestMethod]
+        [TestMethod, TestCategory("B")]
         public void CreateCaseFolder_Int()
         {
             const int caseId = 10000;
