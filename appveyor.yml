@@ -39,6 +39,6 @@ deploy:
 - provider: GitHub
   auth_token:
     secure: JUYzw0XWbwKyC0oXr5n8gITHK557qvwCDRa3lnHFdXJqNg3rS/NQqmYwoDpI58m2
-  artifact: /.*\.nupkg/
+  artifact: 
   on:
     branch: master
