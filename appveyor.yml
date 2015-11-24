@@ -29,8 +29,6 @@ build:
   include_nuget_references: true
   parallel: true
   verbosity: minimal
-test:
-  assemblies: Advokatforeningen.Archive.Api\Advokatforeningen.Archive.Api.Tests\bin\Debug\Advokatforeningen.Archive.Api.Tests.dll
 artifacts:
 - path: Advokatforeningen.Archive.Api.zip
   name: Release
