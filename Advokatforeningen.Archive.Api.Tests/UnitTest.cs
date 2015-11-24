@@ -31,9 +31,9 @@ namespace Advokatforeningen.Archive.Api.Tests
         #region GetCaseFolderDetails
 
         [TestMethod, TestCategory("GetCaseFolderDetails")]
-        public void GetCaseFolderDetails_Int()
+        public void GetCaseFolderDetails_Int(int caseId)
         {
-            const int caseId = 10000;
+            //const int caseId = 10000;
             ArchiveCase archiveCaseController = new ArchiveCase();
             archiveCaseController.GetCaseFolderDetails(caseId, _objArchiveModel);
         }
