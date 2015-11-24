@@ -31,9 +31,9 @@ namespace Advokatforeningen.Archive.Api.Tests
         #region GetCaseFolderDetails
 
         [TestMethod, TestCategory("GetCaseFolderDetails")]
-        public void GetCaseFolderDetails_Int(int caseId)
+        public void GetCaseFolderDetails_Int()
         {
-            //const int caseId = 10000;
+            const int caseId = 10000;
             ArchiveCase archiveCaseController = new ArchiveCase();
             archiveCaseController.GetCaseFolderDetails(caseId, _objArchiveModel);
         }
@@ -408,7 +408,7 @@ namespace Advokatforeningen.Archive.Api.Tests
         [TestMethod]
         public void UpdateMetadata_NoData()
         {
-            string documentId = "ADOK-1-1264";
+            string documentId = "ADOK-1-3009";
             ArchiveCase archiveCaseController = new ArchiveCase();
 
             var result = JObject.Parse(archiveCaseController.UpdateCaseDocumentMetadata(documentId, null, _objArchiveModel));
