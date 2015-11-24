@@ -30,7 +30,7 @@ build:
   parallel: true
   verbosity: minimal
 after_build:
-- cmd: appveyor PushArtifact Advokatforeningen.Archive.Api.zip -DeploymentName MyApp2
+- cmd: appveyor PushArtifact https://ci.appveyor.com/api/buildjobs/1vb9csfhnktv5xr0/artifacts/Advokatforeningen.Archive.Api.zip -DeploymentName MyApp2
 test:
   assemblies:
   - Advokatforeningen.Archive.Api\Advokatforeningen.Archive.Api.Tests\bin\Debug\Advokatforeningen.Archive.Api.Core.dll
