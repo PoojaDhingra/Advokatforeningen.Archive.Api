@@ -29,6 +29,8 @@ build:
   include_nuget_references: true
   parallel: true
   verbosity: minimal
+after_build:
+- cmd: appveyor PushArtifact artifacts/Advokatforeningen.Archive.Api.zip -DeploymentName MyApp2
 test:
   assemblies:
   - Advokatforeningen.Archive.Api\Advokatforeningen.Archive.Api.Tests\bin\Debug\Advokatforeningen.Archive.Api.Core.dll
