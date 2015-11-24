@@ -38,6 +38,10 @@ test:
   - Advokatforeningen.Archive.Api\Advokatforeningen.Archive.Api.Tests\bin\Debug\Advokatforeningen.Archive.Api.Model.dll
   - Advokatforeningen.Archive.Api\Advokatforeningen.Archive.Api.Tests\bin\Debug\Advokatforeningen.Archive.Api.Repositories.dll
   - Advokatforeningen.Archive.Api\Advokatforeningen.Archive.Api.Tests\bin\Debug\Advokatforeningen.Archive.Api.Tests.dll
+artifacts:
+- path: ProcessPilotene.zip
+  name: Release
+  type: WebDeployPackage
 deploy:
 - provider: GitHub
   auth_token:
