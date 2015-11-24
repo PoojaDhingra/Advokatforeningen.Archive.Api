@@ -29,6 +29,9 @@ build:
   include_nuget_references: true
   parallel: true
   verbosity: minimal
+artifacts:
+- path: C:\Process Pilotene
+  name: Release
 deploy:
 - provider: GitHub
   auth_token:
