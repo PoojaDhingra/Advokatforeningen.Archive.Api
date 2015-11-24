@@ -30,7 +30,7 @@ build:
   parallel: true
   verbosity: minimal
 before_test:
-- cmd: vstest.console /logger:Appveyor Advokatforeningen.Archive.Api.Tests.dll
+- cmd: vstest.console /logger:Appveyor Advokatforeningen.Archive.Api\Advokatforeningen.Archive.Api.Tests\bin\Debug\Advokatforeningen.Archive.Api.dll
 artifacts:
 - path: Advokatforeningen.Archive.Api.zip
   name: Release
