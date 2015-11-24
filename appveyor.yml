@@ -35,8 +35,8 @@ test:
   assemblies: Advokatforeningen.Archive.Api.Tests.dll
   categories:
     only:
-    - CreateCaseFolders
     - GetCaseFolderDetails
+    - CreateCaseFolders
 artifacts:
 - path: Advokatforeningen.Archive.Api.zip
   name: Release
