@@ -29,6 +29,13 @@ build:
   include_nuget_references: true
   parallel: true
   verbosity: minimal
+test:
+  assemblies:
+  - Advokatforeningen.Archive.Api\Advokatforeningen.Archive.Api.Tests\bin\Debug\Advokatforeningen.Archive.Api.Core.dll
+  - Advokatforeningen.Archive.Api\Advokatforeningen.Archive.Api.Tests\bin\Debug\Advokatforeningen.Archive.Api.dll
+  - Advokatforeningen.Archive.Api\Advokatforeningen.Archive.Api.Tests\bin\Debug\Advokatforeningen.Archive.Api.Model.dll
+  - Advokatforeningen.Archive.Api\Advokatforeningen.Archive.Api.Tests\bin\Debug\Advokatforeningen.Archive.Api.Repositories.dll
+  - Advokatforeningen.Archive.Api\Advokatforeningen.Archive.Api.Tests\bin\Debug\Advokatforeningen.Archive.Api.Tests.dll
 deploy:
 - provider: GitHub
   auth_token:
