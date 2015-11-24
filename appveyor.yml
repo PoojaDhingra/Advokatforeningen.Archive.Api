@@ -29,14 +29,11 @@ build:
   include_nuget_references: true
   parallel: true
   verbosity: minimal
-before_test:
-- cmd: 
 test:
   assemblies: Advokatforeningen.Archive.Api.Tests.dll
   categories:
-    only:
-    - GetCaseFolderDetails
-    - CreateCaseFolders
+  - - GetCaseFolderDetails
+  - - CreateCaseFolders
 artifacts:
 - path: Advokatforeningen.Archive.Api.zip
   name: Release
