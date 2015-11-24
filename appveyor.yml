@@ -30,7 +30,7 @@ build:
   parallel: true
   verbosity: minimal
 artifacts:
-- path: C:\Process Pilotene
+- path: ProcessPilotene.zip
   name: Release
 deploy:
 - provider: GitHub
