@@ -33,6 +33,10 @@ before_test:
 - cmd: 
 test:
   assemblies: Advokatforeningen.Archive.Api.Tests.dll
+  categories:
+    only:
+    - CreateCaseFolders
+    - GetCaseFolderDetails
 artifacts:
 - path: Advokatforeningen.Archive.Api.zip
   name: Release
