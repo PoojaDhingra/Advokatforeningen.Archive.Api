@@ -1,17 +1,8 @@
-version: 2.0.{build}
-branches:
-  only:
-  - master
+version: 4.0.{build}
 skip_tags: true
 os: Visual Studio 2015
 configuration: Release
 platform: Any CPU
-assembly_info:
-  patch: true
-  file: '**\AssemblyInfo.*'
-  assembly_version: 2.0.{build}
-  assembly_file_version: '{version}'
-  assembly_informational_version: '{version}'
 nuget:
   account_feed: true
   project_feed: true
@@ -27,22 +18,10 @@ build:
   publish_nuget: true
   publish_nuget_symbols: true
   include_nuget_references: true
-  parallel: true
   verbosity: minimal
-test:
-  assemblies: Advokatforeningen.Archive.Api.Tests.dll
-  categories:
-    only:
-    - GetCaseFolderDetails
-    - CreateCaseFolders
-artifacts:
-- path: Advokatforeningen.Archive.Api.zip
-  name: Release
-  type: WebDeployPackage
 deploy:
 - provider: GitHub
   auth_token:
-    secure: JUYzw0XWbwKyC0oXr5n8gITHK557qvwCDRa3lnHFdXJqNg3rS/NQqmYwoDpI58m2
-  artifact: 
+    secure: eiE1iusChDZ4NKMq4Daqe5PXEqCVMNRCEt6fHZdrDpbv+XRYRqjovrE5cYNP/4g2
   on:
     branch: master
