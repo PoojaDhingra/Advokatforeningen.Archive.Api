@@ -12,6 +12,7 @@ namespace Advokatforeningen.Archive.Api.Tests
     [TestClass]
     public class UnitTest
     {
+        /*
         private readonly ArchiveCredentialModel _objArchiveModel;
 
         #region Constructor
@@ -691,5 +692,6 @@ namespace Advokatforeningen.Archive.Api.Tests
         }
 
         #endregion ArchiveCases
+        */
     }
 }
