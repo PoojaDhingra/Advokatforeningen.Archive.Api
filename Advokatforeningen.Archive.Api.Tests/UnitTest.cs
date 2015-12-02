@@ -408,7 +408,7 @@ namespace Advokatforeningen.Archive.Api.Tests
         [TestMethod]
         public void UpdateMetadata_NoData()
         {
-            string documentId = "ADOK-1-3009";
+            string documentId = "ADOK-1-1068";
             ArchiveCase archiveCaseController = new ArchiveCase();
 
             var result = JObject.Parse(archiveCaseController.UpdateCaseDocumentMetadata(documentId, null, _objArchiveModel));
@@ -437,98 +437,259 @@ namespace Advokatforeningen.Archive.Api.Tests
 
         #endregion UpdateMetadata
 
+        #region CopyDocuments From RecordCenter
+
+        [TestMethod]
+        public void CopyFiles_Source_Dest_FromRecordCenter()
+        {
+            const int sourceCaseId = 10000;
+            const int destCaseId = 11000;
+            ArchiveCase archiveCaseController = new ArchiveCase();
+            string copyFlag = "RecordCenter";
+            var result = JObject.Parse(archiveCaseController.CopyCaseDocuments(sourceCaseId, destCaseId, _objArchiveModel, copyFlag));
+            Assert.AreEqual("Case Documents copied successfully", result["response"]);
+        }
+
+        [TestMethod]
+        public void CopyFiles_WrongSource_Dest_FromRecordCenter()
+        {
+            const int sourceCaseId = 122222;
+            const int destCaseId = 11000;
+            string copyFlag = "RecordCenter";
+            ArchiveCase archiveCaseController = new ArchiveCase();
+            var result = JObject.Parse(archiveCaseController.CopyCaseDocuments(sourceCaseId, destCaseId, _objArchiveModel, copyFlag));
+            Assert.AreEqual("Source Case Folder Does not exists", result["response"]);
+        }
+
+        [TestMethod]
+        public void CopyFiles_Source_WrongDest_FromRecordCenter()
+        {
+            const int sourceCaseId = 10000;
+            const int destCaseId = 11000123;
+            string copyFlag = "RecordCenter";
+            ArchiveCase archiveCaseController = new ArchiveCase();
+            var result = JObject.Parse(archiveCaseController.CopyCaseDocuments(sourceCaseId, destCaseId, _objArchiveModel, copyFlag));
+            Assert.AreEqual("Destination Case Folder Does not exists", result["response"]);
+        }
+
+        [TestMethod]
+        public void CopyFiles_NoDocumentsAtSource_FromRecordCenter()
+        {
+            const int sourceCaseId = 13000;
+            const int destCaseId = 11000;
+            string copyFlag = "RecordCenter";
+            ArchiveCase archiveCaseController = new ArchiveCase();
+            var result = JObject.Parse(archiveCaseController.CopyCaseDocuments(sourceCaseId, destCaseId, _objArchiveModel, copyFlag));
+            Assert.AreEqual("No Documents", result["response"]);
+        }
+
+        [TestMethod]
+        public void CopyFiles_NoDocumentsInFirstFolder_FromRecordCenter()
+        {
+            const int sourceCaseId = 16000;
+            const int destCaseId = 11000;
+            string copyFlag = "RecordCenter";
+            ArchiveCase archiveCaseController = new ArchiveCase();
+            var result = JObject.Parse(archiveCaseController.CopyCaseDocuments(sourceCaseId, destCaseId, _objArchiveModel, copyFlag));
+            Assert.AreEqual("Case Documents copied successfullyNo Documents", result["response"]);
+        }
+
+        [TestMethod]
+        public void CopyFiles_NoDocumentsInSecondFolder_FromRecordCenter()
+        {
+            const int sourceCaseId = 14000;
+            const int destCaseId = 11000;
+            string copyFlag = "RecordCenter";
+            ArchiveCase archiveCaseController = new ArchiveCase();
+            var result = JObject.Parse(archiveCaseController.CopyCaseDocuments(sourceCaseId, destCaseId, _objArchiveModel, copyFlag));
+            Assert.AreEqual("No DocumentsCase Documents copied successfully", result["response"]);
+        }
+
+        [TestMethod]
+        public void CopyFiles_OverriteDocuments_FromRecordCenter()
+        {
+            const int sourceCaseId = 10000;
+            const int destCaseId = 11000;
+            string copyFlag = "RecordCenter";
+            ArchiveCase archiveCaseController = new ArchiveCase();
+            var result = JObject.Parse(archiveCaseController.CopyCaseDocuments(sourceCaseId, destCaseId, _objArchiveModel, copyFlag));
+            Assert.AreEqual("Case Documents copied successfully", result["response"]);
+        }
+
+        [TestMethod]
+        public void CopyFiles_NoSourceFolder_FromRecordCenter()
+        {
+            const int sourceCaseId = 12000;
+            const int destCaseId = 11000;
+            string copyFlag = "RecordCenter";
+            ArchiveCase archiveCaseController = new ArchiveCase();
+            var result = JObject.Parse(archiveCaseController.CopyCaseDocuments(sourceCaseId, destCaseId, _objArchiveModel, copyFlag));
+            Assert.AreEqual("Folder Does not exists under Source Case", result["response"]);
+        }
+
+        [TestMethod]
+        public void CopyFiles_NoDestinationFolder_FromRecordCenter()
+        {
+            const int sourceCaseId = 10000;
+            const int destCaseId = 17000;
+            string copyFlag = "RecordCenter";
+            ArchiveCase archiveCaseController = new ArchiveCase();
+            var result = JObject.Parse(archiveCaseController.CopyCaseDocuments(sourceCaseId, destCaseId, _objArchiveModel, copyFlag));
+            Assert.AreEqual("Folder Does not exists under Destination Case", result["response"]);
+        }
+
+        #endregion CopyDocuments From RecordCenter
+
         #region CopyDocuments
 
-        //[TestMethod]
-        //public void CopyFiles_Source_Dest()
-        //{
-        //    const int sourceCaseId = 10000;
-        //    const int destCaseId = 11000;
-        //    ArchiveCase archiveCaseController = new ArchiveCase();
-        //    var result = JObject.Parse(archiveCaseController.CopyCaseDocuments(sourceCaseId, destCaseId, _objArchiveModel));
-        //    Assert.AreEqual("Case Documents copied successfully", result["response"]);
-        //}
+        [TestMethod]
+        public void CopyFiles_Source_Dest()
+        {
+            const int sourceCaseId = 10000;
+            const int destCaseId = 11000;
+            ArchiveCase archiveCaseController = new ArchiveCase();
+            string copyFlag = "NotRecordCenter";
+            var result = JObject.Parse(archiveCaseController.CopyCaseDocuments(sourceCaseId, destCaseId, _objArchiveModel, copyFlag));
+            Assert.AreEqual("Case Documents copied successfully", result["response"]);
+        }
 
-        //[TestMethod]
-        //public void CopyFiles_WrongSource_Dest()
-        //{
-        //    const int sourceCaseId = 122222;
-        //    const int destCaseId = 11000;
-        //    ArchiveCase archiveCaseController = new ArchiveCase();
-        //    var result = JObject.Parse(archiveCaseController.CopyCaseDocuments(sourceCaseId, destCaseId, _objArchiveModel));
-        //    Assert.AreEqual("Source Case Folder Does not exists", result["response"]);
-        //}
+        [TestMethod]
+        public void CopyFiles_WrongSource_Dest()
+        {
+            const int sourceCaseId = 122222;
+            const int destCaseId = 11000;
+            string copyFlag = "NotRecordCenter";
+            ArchiveCase archiveCaseController = new ArchiveCase();
+            var result = JObject.Parse(archiveCaseController.CopyCaseDocuments(sourceCaseId, destCaseId, _objArchiveModel, copyFlag));
+            Assert.AreEqual("Source Case Folder Does not exists", result["response"]);
+        }
 
-        //[TestMethod]
-        //public void CopyFiles_Source_WrongDest()
-        //{
-        //    const int sourceCaseId = 10000;
-        //    const int destCaseId = 11000123;
-        //    ArchiveCase archiveCaseController = new ArchiveCase();
-        //    var result = JObject.Parse(archiveCaseController.CopyCaseDocuments(sourceCaseId, destCaseId, _objArchiveModel));
-        //    Assert.AreEqual("Destination Case Folder Does not exists", result["response"]);
-        //}
+        [TestMethod]
+        public void CopyFiles_Source_WrongDest()
+        {
+            const int sourceCaseId = 10000;
+            const int destCaseId = 11000123;
+            string copyFlag = "NotRecordCenter";
+            ArchiveCase archiveCaseController = new ArchiveCase();
+            var result = JObject.Parse(archiveCaseController.CopyCaseDocuments(sourceCaseId, destCaseId, _objArchiveModel, copyFlag));
+            Assert.AreEqual("Destination Case Folder Does not exists", result["response"]);
+        }
 
-        //[TestMethod]
-        //public void CopyFiles_NoDocumentsAtSource()
-        //{
-        //    const int sourceCaseId = 13000;
-        //    const int destCaseId = 11000;
-        //    ArchiveCase archiveCaseController = new ArchiveCase();
-        //    var result = JObject.Parse(archiveCaseController.CopyCaseDocuments(sourceCaseId, destCaseId, _objArchiveModel));
-        //    Assert.AreEqual("No Documents", result["response"]);
-        //}
+        [TestMethod]
+        public void CopyFiles_NoDocumentsAtSource()
+        {
+            const int sourceCaseId = 13000;
+            const int destCaseId = 11000;
+            string copyFlag = "NotRecordCenter";
+            ArchiveCase archiveCaseController = new ArchiveCase();
+            var result = JObject.Parse(archiveCaseController.CopyCaseDocuments(sourceCaseId, destCaseId, _objArchiveModel, copyFlag));
+            Assert.AreEqual("No Documents", result["response"]);
+        }
 
-        //[TestMethod]
-        //public void CopyFiles_NoDocumentsInFirstFolder()
-        //{
-        //    const int sourceCaseId = 15000;
-        //    const int destCaseId = 11000;
-        //    ArchiveCase archiveCaseController = new ArchiveCase();
-        //    var result = JObject.Parse(archiveCaseController.CopyCaseDocuments(sourceCaseId, destCaseId, _objArchiveModel));
-        //    Assert.AreEqual("Case Documents copied successfullyNo Documents", result["response"]);
-        //}
+        [TestMethod]
+        public void CopyFiles_NoDocumentsInFirstFolder()
+        {
+            const int sourceCaseId = 15000;
+            const int destCaseId = 11000;
+            string copyFlag = "NotRecordCenter";
+            ArchiveCase archiveCaseController = new ArchiveCase();
+            var result = JObject.Parse(archiveCaseController.CopyCaseDocuments(sourceCaseId, destCaseId, _objArchiveModel, copyFlag));
+            Assert.AreEqual("Case Documents copied successfullyNo Documents", result["response"]);
+        }
 
-        //[TestMethod]
-        //public void CopyFiles_NoDocumentsInSecondFolder()
-        //{
-        //    const int sourceCaseId = 14000;
-        //    const int destCaseId = 11000;
-        //    ArchiveCase archiveCaseController = new ArchiveCase();
-        //    var result = JObject.Parse(archiveCaseController.CopyCaseDocuments(sourceCaseId, destCaseId, _objArchiveModel));
-        //    Assert.AreEqual("No DocumentsCase Documents copied successfully", result["response"]);
-        //}
+        [TestMethod]
+        public void CopyFiles_NoDocumentsInSecondFolder()
+        {
+            const int sourceCaseId = 14000;
+            const int destCaseId = 11000;
+            string copyFlag = "NotRecordCenter";
+            ArchiveCase archiveCaseController = new ArchiveCase();
+            var result = JObject.Parse(archiveCaseController.CopyCaseDocuments(sourceCaseId, destCaseId, _objArchiveModel, copyFlag));
+            Assert.AreEqual("No DocumentsCase Documents copied successfully", result["response"]);
+        }
 
-        //[TestMethod]
-        //public void CopyFiles_OverriteDocuments()
-        //{
-        //    const int sourceCaseId = 10000;
-        //    const int destCaseId = 11000;
-        //    ArchiveCase archiveCaseController = new ArchiveCase();
-        //    var result = JObject.Parse(archiveCaseController.CopyCaseDocuments(sourceCaseId, destCaseId, _objArchiveModel));
-        //    Assert.AreEqual("Case Documents copied successfully", result["response"]);
-        //}
+        [TestMethod]
+        public void CopyFiles_OverriteDocuments()
+        {
+            const int sourceCaseId = 10000;
+            const int destCaseId = 11000;
+            string copyFlag = "NotRecordCenter";
+            ArchiveCase archiveCaseController = new ArchiveCase();
+            var result = JObject.Parse(archiveCaseController.CopyCaseDocuments(sourceCaseId, destCaseId, _objArchiveModel, copyFlag));
+            Assert.AreEqual("Case Documents copied successfully", result["response"]);
+        }
 
-        //[TestMethod]
-        //public void CopyFiles_NoSourceFolder()
-        //{
-        //    const int sourceCaseId = 12000;
-        //    const int destCaseId = 10000;
-        //    ArchiveCase archiveCaseController = new ArchiveCase();
-        //    var result = JObject.Parse(archiveCaseController.CopyCaseDocuments(sourceCaseId, destCaseId, _objArchiveModel));
-        //    Assert.AreEqual("Folder Does not exists under Source Case", result["response"]);
-        //}
+        [TestMethod]
+        public void CopyFiles_NoSourceFolder()
+        {
+            const int sourceCaseId = 12000;
+            const int destCaseId = 10000;
+            string copyFlag = "NotRecordCenter";
+            ArchiveCase archiveCaseController = new ArchiveCase();
+            var result = JObject.Parse(archiveCaseController.CopyCaseDocuments(sourceCaseId, destCaseId, _objArchiveModel, copyFlag));
+            Assert.AreEqual("Folder Does not exists under Source Case", result["response"]);
+        }
 
-        //[TestMethod]
-        //public void CopyFiles_NoDestinationFolder()
-        //{
-        //    const int sourceCaseId = 10000;
-        //    const int destCaseId = 12000;
-        //    ArchiveCase archiveCaseController = new ArchiveCase();
-        //    var result = JObject.Parse(archiveCaseController.CopyCaseDocuments(sourceCaseId, destCaseId, _objArchiveModel));
-        //    Assert.AreEqual("Folder Does not exists under Destination Case", result["response"]);
-        //}a
+        [TestMethod]
+        public void CopyFiles_NoDestinationFolder()
+        {
+            const int sourceCaseId = 10000;
+            const int destCaseId = 12000;
+            string copyFlag = "NotRecordCenter";
+            ArchiveCase archiveCaseController = new ArchiveCase();
+            var result = JObject.Parse(archiveCaseController.CopyCaseDocuments(sourceCaseId, destCaseId, _objArchiveModel, copyFlag));
+            Assert.AreEqual("Folder Does not exists under Destination Case", result["response"]);
+        }
 
         #endregion CopyDocuments
+
+        #region ArchiveCases
+
+        [TestMethod]
+        public void ArchiveCase()
+        {
+            const int sourceCaseId = 30000;
+            ArchiveCase archiveCaseController = new ArchiveCase();
+            var result = JObject.Parse(archiveCaseController.CaseToArchive(sourceCaseId, _objArchiveModel));
+            Assert.AreEqual("Case Documents moved and archived successfully", result["response"]);
+        }
+
+        [TestMethod]
+        public void ArchiveDuplicateCase()
+        {
+            const int sourceCaseId = 21000;
+            ArchiveCase archiveCaseController = new ArchiveCase();
+            var result = JObject.Parse(archiveCaseController.CaseToArchive(sourceCaseId, _objArchiveModel));
+            //   Assert.AreEqual("Case already archived at:", result["response"]);
+        }
+
+        [TestMethod]
+        public void ArchiveCase_WithoutFolders()
+        {
+            const int sourceCaseId = 22000;
+            ArchiveCase archiveCaseController = new ArchiveCase();
+            var result = JObject.Parse(archiveCaseController.CaseToArchive(sourceCaseId, _objArchiveModel));
+            Assert.AreEqual("Case Documents moved and archived successfully", result["response"]);
+        }
+
+        [TestMethod]
+        public void ArchiveCase_NotExist()
+        {
+            const int sourceCaseId = 20000;
+            ArchiveCase archiveCaseController = new ArchiveCase();
+            var result = JObject.Parse(archiveCaseController.CaseToArchive(sourceCaseId, _objArchiveModel));
+            Assert.AreEqual("Source Case Folder Does not exists", result["response"]);
+        }
+
+        [TestMethod]
+        public void ArchiveCase_WithoutDocuments()
+        {
+            const int sourceCaseId = 23000;
+            ArchiveCase archiveCaseController = new ArchiveCase();
+            var result = JObject.Parse(archiveCaseController.CaseToArchive(sourceCaseId, _objArchiveModel));
+            Assert.AreEqual("Case Documents moved and archived successfully", result["response"]);
+        }
+
+        #endregion ArchiveCases
     }
 }

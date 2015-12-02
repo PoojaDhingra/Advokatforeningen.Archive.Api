@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Advokatforeningen.Archive.Api.Repositories.Utilities
+﻿namespace Advokatforeningen.Archive.Api.Repositories.Utilities
 {
     public static class Constants
     {

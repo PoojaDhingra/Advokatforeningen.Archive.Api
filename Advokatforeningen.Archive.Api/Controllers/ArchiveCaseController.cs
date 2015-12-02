@@ -601,9 +601,13 @@ namespace Advokatforeningen.Archive.Api.Controllers
         [HttpPost]
         public HttpResponseMessage CopyCaseDocuments(int sourceCaseId, int destinationCaseId, [FromBody]string copyFlag)
         {
+            string error = string.Empty;
             try
             {
-                JToken json = JObject.Parse(_objArchiveCase.CopyCaseDocuments(sourceCaseId, destinationCaseId, _objArchiveModel, copyFlag.Trim()));
+                error = _objArchiveCase.CopyCaseDocuments(sourceCaseId, destinationCaseId, _objArchiveModel, copyFlag.Trim());
+
+                //JToken json = JObject.Parse(_objArchiveCase.CopyCaseDocuments(sourceCaseId, destinationCaseId, _objArchiveModel, copyFlag.Trim()));
+                JToken json = JObject.Parse(error);
                 HttpResponseMessage response = null;
                 if (!ReferenceEquals(json, null))
                 {
@@ -662,6 +666,7 @@ namespace Advokatforeningen.Archive.Api.Controllers
                         };
                         throw new HttpResponseException(response);
                     }
+
                     if (responseData.ToLower().Contains("No Documents".ToLower()) && Convert.ToString(json["response"]).ToLower().Contains("Case Documents copied successfully".ToLower()))
                     {
                         response = new HttpResponseMessage
@@ -672,6 +677,7 @@ namespace Advokatforeningen.Archive.Api.Controllers
                         };
                         throw new HttpResponseException(response);
                     }
+
                     if (responseData.ToLower().Equals("No Documents".ToLower()))
                     {
                         response = new HttpResponseMessage
@@ -689,6 +695,7 @@ namespace Advokatforeningen.Archive.Api.Controllers
                     }
                     else
                     {
+                        //TODO: check the else condition.
                         response = Request.CreateResponse(HttpStatusCode.OK, json);
                     }
                 }
@@ -708,7 +715,8 @@ namespace Advokatforeningen.Archive.Api.Controllers
                 throw new HttpResponseException(new HttpResponseMessage
                 {
                     StatusCode = HttpStatusCode.InternalServerError,
-                    Content = new StringContent(ex.Message)
+                    Content = new StringContent(ex.Message)//ex.InnerException.ToString()
+                    //Content = new StringContent(ex.InnerException.ToString() + " \n end \n " + ex.StackTrace + " \n end \n " + ex.Message + " \n end \n " + ex.Data)
                 });
             }
         }

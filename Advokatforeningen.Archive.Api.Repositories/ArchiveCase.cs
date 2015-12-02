@@ -14,7 +14,7 @@ namespace Advokatforeningen.Archive.Api.Repositories
 {
     public class ArchiveCase : IArchiveCase
     {
-        private List<string> templateFolders = new List<string>
+        private readonly List<string> _templateFolders = new List<string>
         {
             TempUtvalgLib,
             TempNemndLib,
@@ -218,7 +218,7 @@ namespace Advokatforeningen.Archive.Api.Repositories
             //    TempSladdetBeslutning
             //};
 
-            foreach (string folderTitle in templateFolders)
+            foreach (string folderTitle in _templateFolders)
             {
                 var body = string.Concat(
                     "{'__metadata':{'type':'SP.Folder'},",
@@ -333,7 +333,7 @@ namespace Advokatforeningen.Archive.Api.Repositories
                 libraryName = DocumentLibraryEn;
             }
 
-            RestRequest request;
+            RestRequest request = null;
             List<ArchiveCaseDocumentDetailModel> documents = null;
             const string startString = "ADOK-";
             if (caseIdDocumentId.ToLower().StartsWith(startString.ToLower(), StringComparison.Ordinal))
@@ -362,8 +362,8 @@ namespace Advokatforeningen.Archive.Api.Repositories
                                             CaseNumber = value["CaseNumber"].HasValues ? (int)value["CaseNumber"] : 0,
                                             Origin = (string)value["Origin"],
                                             Category = (string)value["PCategory"],
-                                            CategoryOther = value["CategoryOther"].HasValues ? (string)value["CategoryOther"] : String.Empty,
-                                            Description = value["PDescription"].HasValues ? (string)value["PDescription"] : String.Empty,
+                                            CategoryOther = value["CategoryOther"].HasValues ? (string)value["CategoryOther"] : string.Empty,
+                                            Description = value["PDescription"].HasValues ? (string)value["PDescription"] : string.Empty,
                                             ContradictionId = (string)value["ContradictionID"],
                                             DecisionId = (string)value["DecisionID"],
                                             PartyId = (string)value["PartyID"],
@@ -401,8 +401,8 @@ namespace Advokatforeningen.Archive.Api.Repositories
                                      CaseNumber = value["CaseNumber"].HasValues ? (int)value["CaseNumber"] : 0,
                                      Origin = (string)value["Origin"],
                                      Category = (string)value["PCategory"],
-                                     CategoryOther = value["CategoryOther"].HasValues ? (string)value["CategoryOther"] : String.Empty,
-                                     Description = value["PDescription"].HasValues ? (string)value["PDescription"] : String.Empty,
+                                     CategoryOther = value["CategoryOther"].HasValues ? (string)value["CategoryOther"] : string.Empty,
+                                     Description = value["PDescription"].HasValues ? (string)value["PDescription"] : string.Empty,
                                      ContradictionId = (string)value["ContradictionID"],
                                      DecisionId = (string)value["DecisionID"],
                                      PartyId = (string)value["PartyID"],
@@ -423,8 +423,7 @@ namespace Advokatforeningen.Archive.Api.Repositories
             string extension = Path.GetExtension(fileDataObj.FileName);
             if (!string.IsNullOrEmpty(extension))
             {
-                Match match = Regex.Match(extension, @".*\.(xls|xlsx|jpg|jpeg|gif|png|doc|docx|pdf|pptx|ppt|txt)?$",
-                    RegexOptions.IgnoreCase);
+                Match match = Regex.Match(extension, @".*\.(xls|xlsx|jpg|jpeg|gif|png|doc|docx|pdf|pptx|ppt|txt)?$", RegexOptions.IgnoreCase);
 
                 if (match.Success)
                 {
@@ -675,216 +674,228 @@ namespace Advokatforeningen.Archive.Api.Repositories
 
         public string CopyCaseDocuments(int sourceCaseId, int destinationCaseId, ArchiveCredentialModel archiveModel, string copyFlag)
         {
-            Uri uri = new Uri(archiveModel.BaseSiteUrl);
-            string relativeUrl = uri.AbsolutePath;
-
-            if (archiveModel.BaseSiteUrl.EndsWith("/", StringComparison.Ordinal))
-                archiveModel.BaseSiteUrl += KeywordApi;
-            else
-                archiveModel.BaseSiteUrl += "/" + KeywordApi;
-
-            string formDigestValue, libraryName = string.Empty, caseFolderName = string.Empty;
-            var restClient = RestClientObj(archiveModel.BaseSiteUrl, archiveModel.Username, archiveModel.Password, out formDigestValue);
-
-            int localeId = GetLocaleId(restClient);
-            if (Equals(localeId, NorwegianNoLocaleId))
-            {
-                libraryName = DocumentLibraryNo;
-                caseFolderName = CaseFolderNameNo;
-            }
-            else if (Equals(localeId, EnglishUsLocaleId))
-            {
-                libraryName = DocumentLibraryEn;
-                caseFolderName = CaseFolderNameEn;
-            }
-
-            if (!relativeUrl.EndsWith("/", StringComparison.Ordinal))
-            {
-                relativeUrl += "/";
-            }
-
-            string baseServerRelativeUrl = string.Concat(relativeUrl, "@@/"),
-                sourceServerRelativeUrl = string.Empty,
-                destinationServerRelativeUrl = string.Empty,
-                recordCenterCurrentYearLib = string.Empty;
-
-            //RestRequest request = null;
-
-            if (copyFlag.ToLower().Equals("RecordCenter".ToLower()))
-            {
-                recordCenterCurrentYearLib = DateTime.Now.Year.ToString();
-                //request = new RestRequest("web/lists/getbytitle('" + recordCenterCurrentYearLib + "')/title", Method.GET)
-                //{
-                //    RequestFormat = DataFormat.Json
-                //};
-                //request.AddHeader(Accept, AcceptHeaderVal);
-
-                //IRestResponse response = restClient.Execute(request);
-                //string result = response.Content;
-                //JObject jobj = JObject.Parse(result);
-
-                //string results = string.Empty;
-                //if (jobj.HasValues)
-                //{
-                //    results = Convert.ToString(result.StartsWith("{\"error\"", StringComparison.Ordinal) ? jobj["error"]["code"] : jobj["d"]["Title"]);
-                //}
-
-                string results = IsLibraryExists(recordCenterCurrentYearLib, restClient);
-                if (!string.IsNullOrEmpty(results))
-                {
-                    if (results.ToLower().Equals(recordCenterCurrentYearLib.ToLower()))
-                    {
-                        sourceServerRelativeUrl = string.Concat(baseServerRelativeUrl.Replace("@@", recordCenterCurrentYearLib), "##");
-                        destinationServerRelativeUrl = string.Concat(baseServerRelativeUrl.Replace("@@", libraryName), caseFolderName, "/##");
-                    }
-                    else if (results.ToLower().Equals("-1, System.ArgumentException".ToLower()))
-                    {
-                        return "{\"response\":\"Library: '" + recordCenterCurrentYearLib + "' does not exists\"}";
-                    }
-                }
-            }
-            else if (copyFlag.ToLower().Equals("NotRecordCenter".ToLower()))
-            {
-                sourceServerRelativeUrl = string.Concat(baseServerRelativeUrl.Replace("@@", libraryName), caseFolderName, "/##");
-                destinationServerRelativeUrl = sourceServerRelativeUrl;
-            }
-
-            //string folderServerRelativeUrl = string.Concat(relativeUrl, libraryName, "/", caseFolderName, "/@@/", folderName),
-
-            //string baseServerRelativeUrl = string.Concat(relativeUrl, libraryName, "/", caseFolderName, "/##");
-            //string sourceCaseFolderServerRelativeUrl = baseServerRelativeUrl.Replace("##", sourceCaseId.ToString()),
-            //       destCaseFolderServerRelativeUrl = baseServerRelativeUrl.Replace("##", destinationCaseId.ToString());
-
-            string sourceCaseFolderServerRelativeUrl = sourceServerRelativeUrl.Replace("##", sourceCaseId.ToString()),
-                   destCaseFolderServerRelativeUrl = destinationServerRelativeUrl.Replace("##", destinationCaseId.ToString());
-
+            string cusMsg = string.Empty;
             List<string> folderToCopyData = new List<string>
             {
                 TempSaksdokumenter,TempBeslutning
             };
-            string caseResult = string.Empty;
-            string resultData = string.Empty;
-            ItemDetailModel srcCaseFolderDetailVal = GetItemDetailsByServerRelativeUrl(sourceCaseFolderServerRelativeUrl, restClient);
-            if (!ReferenceEquals(srcCaseFolderDetailVal, null))
+            try
             {
-                /* commented by vikas */
-                //string srcURL = sourceCaseFolderServerRelativeUrl;
-                //string destURL = destCaseFolderServerRelativeUrl;
-                ItemDetailModel destCaseFolderDetailVal = GetItemDetailsByServerRelativeUrl(destCaseFolderServerRelativeUrl, restClient);
-                if (!ReferenceEquals(destCaseFolderDetailVal, null))
+                Uri uri = new Uri(archiveModel.BaseSiteUrl);
+                string relativeUrl = uri.AbsolutePath;
+
+                if (archiveModel.BaseSiteUrl.EndsWith("/", StringComparison.Ordinal))
+                    archiveModel.BaseSiteUrl += KeywordApi;
+                else
+                    archiveModel.BaseSiteUrl += "/" + KeywordApi;
+
+                string formDigestValue, libraryName = string.Empty, caseFolderName = string.Empty;
+
+                var restClient = RestClientObj(archiveModel.BaseSiteUrl, archiveModel.Username, archiveModel.Password, out formDigestValue);
+                cusMsg += "\n  rest client and form digest fetched  ";
+                int localeId = GetLocaleId(restClient);
+                if (Equals(localeId, NorwegianNoLocaleId))
                 {
-                    foreach (string folderName in folderToCopyData)
+                    libraryName = DocumentLibraryNo;
+                    caseFolderName = CaseFolderNameNo;
+                }
+                else if (Equals(localeId, EnglishUsLocaleId))
+                {
+                    libraryName = DocumentLibraryEn;
+                    caseFolderName = CaseFolderNameEn;
+                }
+
+                if (!relativeUrl.EndsWith("/", StringComparison.Ordinal))
+                {
+                    relativeUrl += "/";
+                }
+
+                string baseServerRelativeUrl = string.Concat(relativeUrl, "#1#/"),//@@
+                    sourceServerRelativeUrl = string.Empty,
+                    destinationServerRelativeUrl = string.Empty,
+                    recordCenterCurrentYearLib = string.Empty;
+
+                //RestRequest request = null;
+
+                if (copyFlag.ToLower().Equals("RecordCenter".ToLower()))
+                {
+                    recordCenterCurrentYearLib = DateTime.Now.Year.ToString();
+
+                    string results = IsLibraryExists(recordCenterCurrentYearLib, restClient);
+                    cusMsg += "\n  checking library exists   ";
+                    if (!string.IsNullOrEmpty(results))
                     {
-                        string sourceUrl = sourceCaseFolderServerRelativeUrl + "/" + folderName;
-                        ItemDetailModel srcCaseFolderDetailVal2 = GetItemDetailsByServerRelativeUrl(sourceUrl, restClient);
-                        if (!ReferenceEquals(srcCaseFolderDetailVal2, null))
+                        if (results.ToLower().Equals(recordCenterCurrentYearLib.ToLower()))
                         {
-                            string destinationUrl = destCaseFolderServerRelativeUrl + "/" + folderName;
-                            ItemDetailModel destCaseFolderDetailVal2 = GetItemDetailsByServerRelativeUrl(destinationUrl, restClient);
-                            if (!ReferenceEquals(destCaseFolderDetailVal2, null))
+                            sourceServerRelativeUrl = string.Concat(baseServerRelativeUrl.Replace("#1#", recordCenterCurrentYearLib), "##");//@@
+                            destinationServerRelativeUrl = string.Concat(baseServerRelativeUrl.Replace("#1#", libraryName), caseFolderName, "/##");//@@
+                        }
+                        else if (results.ToLower().Equals("-1, System.ArgumentException".ToLower()))
+                        {
+                            return "{\"response\":\"Library: '" + recordCenterCurrentYearLib + "' does not exists\"}";
+                        }
+                    }
+                }
+                else if (copyFlag.ToLower().Equals("NotRecordCenter".ToLower()))
+                {
+                    sourceServerRelativeUrl = string.Concat(baseServerRelativeUrl.Replace("#1#", libraryName), caseFolderName, "/##");//@@
+                    destinationServerRelativeUrl = sourceServerRelativeUrl;
+                    cusMsg += "\n  " + destinationServerRelativeUrl + "  ";
+                }
+
+                string sourceCaseFolderServerRelativeUrl = sourceServerRelativeUrl.Replace("##", sourceCaseId.ToString()),
+                       destCaseFolderServerRelativeUrl = destinationServerRelativeUrl.Replace("##", destinationCaseId.ToString());
+
+                string caseResult = string.Empty, resultData = string.Empty;
+
+                ItemDetailModel srcCaseFolderDetailVal = GetItemDetailsByServerRelativeUrl(sourceCaseFolderServerRelativeUrl, restClient);
+                if (!ReferenceEquals(srcCaseFolderDetailVal, null))
+                {
+                    /* commented by vikas */
+                    //string srcURL = sourceCaseFolderServerRelativeUrl;
+                    //string destURL = destCaseFolderServerRelativeUrl;
+
+                    ItemDetailModel destCaseFolderDetailVal = GetItemDetailsByServerRelativeUrl(destCaseFolderServerRelativeUrl, restClient);
+                    if (!ReferenceEquals(destCaseFolderDetailVal, null))
+                    {
+                        foreach (string folderName in folderToCopyData)
+                        {
+                            string sourceUrl = sourceCaseFolderServerRelativeUrl + "/" + folderName;
+
+                            ItemDetailModel srcCaseFolderDetailVal2 = GetItemDetailsByServerRelativeUrl(sourceUrl, restClient);
+                            if (!ReferenceEquals(srcCaseFolderDetailVal2, null))
                             {
-                                RestRequest request = null;
-                                request = new RestRequest("web/GetFolderByServerRelativeUrl('" + sourceUrl + "')/Files?$select=Name", Method.GET)
+                                string destinationUrl = destCaseFolderServerRelativeUrl + "/" + folderName;
+
+                                ItemDetailModel destCaseFolderDetailVal2 = GetItemDetailsByServerRelativeUrl(destinationUrl, restClient);
+                                if (!ReferenceEquals(destCaseFolderDetailVal2, null))
                                 {
-                                    RequestFormat = DataFormat.Json
-                                };
-                                request.AddHeader(Accept, AcceptHeaderVal);
-
-                                IRestResponse response = restClient.Execute(request);
-                                string result = response.Content;
-
-                                JObject jobj = JObject.Parse(result);
-                                var results = jobj["d"]["results"];
-
-                                if (!ReferenceEquals(results, null) && results.Any())
-                                {
-                                    List<string> caseFileNameCollection = (from value in results.Children()
-                                                                           select Convert.ToString(value["Name"])
-                                                                          ).ToList();
-
-                                    int caseFileNameCount = caseFileNameCollection.Count, index;
-
-                                    for (index = 0; index < caseFileNameCount; index++)
+                                    RestRequest request = null;
+                                    request = new RestRequest("web/GetFolderByServerRelativeUrl('" + sourceUrl + "')/Files?$select=Name&$orderby=Name", Method.GET)
                                     {
-                                        string srcUrl = sourceUrl, destUrl = destinationUrl;
-                                        srcUrl += "/" + caseFileNameCollection[index];
-                                        destUrl += "/" + caseFileNameCollection[index];
+                                        RequestFormat = DataFormat.Json
+                                    };
+                                    request.AddHeader(Accept, AcceptHeaderVal);
 
-                                        //  resultData = resultData + "web/GetFileByServerRelativeUrl('" + srcUrl + "')/copyto(strnewurl='" + destUrl + "', boverwrite = true)";
+                                    IRestResponse response = restClient.Execute(request);
+                                    string result = response.Content;
 
-                                        request =
-                                            new RestRequest("web/GetFileByServerRelativeUrl('" + srcUrl + "')/copyto(strnewurl='" + destUrl + "', boverwrite = true)", Method.POST)
+                                    JObject jobj = JObject.Parse(result);
+
+                                    var results = jobj["d"]["results"];
+
+                                    if (!ReferenceEquals(results, null) && results.Any())
+                                    {
+                                        List<string> caseFileNameCollection = (from value in results.Children()
+                                                                               select Convert.ToString(value["Name"])
+                                                                              ).ToList();
+
+                                        //List<string> caseFileNameCollection = new List<string>();
+
+                                        //foreach (var value in results.Children())
+                                        //{
+                                        //    caseFileNameCollection.Add(Convert.ToString(value["Name"]));
+                                        //}
+
+                                        int caseFileNameCount = caseFileNameCollection.Count, index;
+                                        for (index = 0; index < caseFileNameCount; index++)
+                                        {
+                                            cusMsg += "\n  Form Digest : " + formDigestValue + ",,,," + caseFileNameCount + "  ";
+                                            string srcUrl = sourceUrl, destUrl = destinationUrl;
+                                            srcUrl += "/" + caseFileNameCollection[index];
+                                            destUrl += "/" + caseFileNameCollection[index];
+
+                                            //  resultData = resultData + "web/GetFileByServerRelativeUrl('" + srcUrl + "')/copyto(strnewurl='" + destUrl + "', boverwrite = true)";
+                                            cusMsg += "\n  " + srcUrl + "  \n  " + destUrl + "  ";
+                                            //string myUrl = "web/GetFileByServerRelativeUrl('" + srcUrl + "')/copyto(strnewurl='" + destUrl + "',boverwrite=true)";
+
+                                            request = new RestRequest("web/getfilebyserverrelativeUrl('" + srcUrl + "')/copyto(strnewurl='" + destUrl + "',boverwrite=true)", Method.POST)
                                             {
                                                 RequestFormat = DataFormat.Json
                                             };
-                                        request.AddHeader(Accept, AcceptHeaderVal);
-                                        request.AddHeader(RequestDigest, formDigestValue);
-                                        IRestResponse caseDocumentResponse = restClient.Execute(request);
 
-                                        JObject jobject = JObject.Parse(caseDocumentResponse.Content);
-                                        bool isResponseExists = jobject["d"]["CopyTo"].HasValues;
-                                        if (!isResponseExists)
-                                        {
-                                            caseResult += string.Empty;
+                                            //cusMsg += "  $$  " + archiveModel.BaseSiteUrl + myUrl + "  $$  ";
+                                            request.AddHeader(Accept, AcceptHeaderVal);
+                                            request.AddHeader(RequestDigest, formDigestValue);
+
+                                            IRestResponse caseDocumentResponse = restClient.Execute(request);
+
+                                            //JObject jobject = JObject.Parse(caseDocumentResponse.Content);
+                                            //bool isResponseExists = jobject["d"]["CopyTo"].HasValues;
+                                            //if (!isResponseExists)
+                                            //{
+                                            //    caseResult += string.Empty;
+                                            //}
+
+                                            if (Equals(caseDocumentResponse.StatusCode, HttpStatusCode.OK))
+                                            {
+                                                caseResult += string.Empty;
+                                            }
+
+                                            cusMsg += "\n  " + caseDocumentResponse.StatusCode + "  ";
                                         }
-                                    }
-                                    // resultData = resultData + " Data Copied";
-                                    if (resultData.Equals("Case Documents copied successfully"))
-                                    {
-                                        resultData = string.IsNullOrEmpty(caseResult)
-                                                                    ? "Case Documents copied successfully"
-                                                                    : "sError- Try again";
+                                        // resultData = resultData + " Data Copied";
+                                        if (resultData.Equals("Case Documents copied successfully"))
+                                        {
+                                            resultData = string.IsNullOrEmpty(caseResult)
+                                                         ? "Case Documents copied successfully" //+ cusMsg
+                                                         : "sError- Try again";
+                                        }
+                                        else
+                                        {
+                                            resultData = string.IsNullOrEmpty(caseResult)
+                                                         ? resultData + "Case Documents copied successfully" //+ cusMsg
+                                                         : resultData + "Error- Try again";
+                                        }
                                     }
                                     else
                                     {
-                                        resultData = string.IsNullOrEmpty(caseResult)
-                                                                    ? resultData + "Case Documents copied successfully"
-                                                                    : resultData + "Error- Try again";
+                                        if (resultData.Equals("No Documents"))
+                                        {
+                                            resultData = "No Documents";
+                                        }
+                                        else
+                                        {
+                                            resultData += "No Documents";
+                                        }
+                                        // return "{\"response\":\"No Documents\"}";
                                     }
                                 }
                                 else
                                 {
-                                    if (resultData.Equals("No Documents"))
-                                    {
-                                        resultData = "No Documents";
-                                    }
-                                    else
-                                    {
-                                        resultData += "No Documents";
-                                    }
-                                    // return "{\"response\":\"No Documents\"}";
+                                    // return "{\"response\":\"Folder Does not exists under Destination Case\"}";
+                                    resultData = "Folder Does not exists under Destination Case";
                                 }
                             }
                             else
                             {
-                                // return "{\"response\":\"Folder Does not exists under Destination Case\"}";
-                                resultData = "Folder Does not exists under Destination Case";
+                                //  return "{\"response\":\"Folder Does not exists under Source Case\"}";
+                                resultData = "Folder Does not exists under Source Case";
                             }
                         }
-                        else
-                        {
-                            //  return "{\"response\":\"Folder Does not exists under Source Case\"}";
-                            resultData = "Folder Does not exists under Source Case";
-                        }
+                    }
+                    else
+                    {
+                        //return "{\"response\":\"Destination Case Folder Does not exists\"}";
+                        resultData = "Destination Case Folder Does not exists";
                     }
                 }
                 else
                 {
-                    //return "{\"response\":\"Destination Case Folder Does not exists\"}";
-                    resultData = "Destination Case Folder Does not exists";
+                    resultData += "Source Case Folder Does not exists";
                 }
-            }
-            else
-            {
-                resultData += "Source Case Folder Does not exists";
-            }
 
-            //return string.IsNullOrEmpty(caseResult)
-            //                            ? "{\"response\":\"Case Documents copied successfully\"}"
-            //                            : "{\"response\":\"Error- Try again\"}";
-            //      return "{\"response\":\"Source Case Folder Does not exists\"}";
-            resultData = "{\"response\":\"" + resultData + "\"}";
-            return resultData;
+                //return string.IsNullOrEmpty(caseResult)
+                //                            ? "{\"response\":\"Case Documents copied successfully\"}"
+                //                            : "{\"response\":\"Error- Try again\"}";
+                //      return "{\"response\":\"Source Case Folder Does not exists\"}";
+                resultData = "{\"response\":\"" + resultData + "\"}";
+                return resultData;
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
         }
 
         public string CaseToArchive(int caseIdToArchive, ArchiveCredentialModel archiveModel)
@@ -941,7 +952,7 @@ namespace Advokatforeningen.Archive.Api.Repositories
 
             string caseResult = string.Empty,
                    resultData = string.Empty;
-            RestRequest request = null;
+            //RestRequest request = null;
             ItemDetailModel srcCaseFolderDetailVal = GetItemDetailsByServerRelativeUrl(sourceCaseFolderServerRelativeUrl, restClient);
             if (!ReferenceEquals(srcCaseFolderDetailVal, null))
             {
@@ -952,7 +963,7 @@ namespace Advokatforeningen.Archive.Api.Repositories
                             "{'__metadata':{'type':'SP.Folder'},",
                             "'ServerRelativeUrl':'" + destCaseFolderServerRelativeUrl + "'}");
 
-                    request = new RestRequest("Web/Folders", Method.POST)
+                    RestRequest request = new RestRequest("Web/Folders", Method.POST)
                     {
                         RequestFormat = DataFormat.Json
                     };
@@ -963,9 +974,10 @@ namespace Advokatforeningen.Archive.Api.Repositories
                     IRestResponse response = restClient.Execute(request);
                     JObject jobject = JObject.Parse(response.Content);
 
-                    if (Convert.ToString(jobject["d"]["ServerRelativeUrl"]).Equals(destCaseFolderServerRelativeUrl))
+                    // TODO: Check is not working on Test Environment on our test site
+                    //if (Convert.ToString(jobject["d"]["ServerRelativeUrl"]).Equals(destCaseFolderServerRelativeUrl))
                     {
-                        foreach (string folderTitle in templateFolders)
+                        foreach (string folderTitle in _templateFolders)
                         {
                             string subfolderRelativeUrl = string.Concat(destCaseFolderServerRelativeUrl, "/", folderTitle);
                             body = string.Concat(
@@ -992,7 +1004,7 @@ namespace Advokatforeningen.Archive.Api.Repositories
 
                     if (string.IsNullOrEmpty(caseResult))
                     {
-                        foreach (string folderName in templateFolders)
+                        foreach (string folderName in _templateFolders)
                         {
                             string sourceUrl = sourceCaseFolderServerRelativeUrl + "/" + folderName;
                             ItemDetailModel srcCaseFolderDetailVal2 = GetItemDetailsByServerRelativeUrl(sourceUrl, restClient);
@@ -1015,9 +1027,9 @@ namespace Advokatforeningen.Archive.Api.Repositories
                                                                            select Convert.ToString(value["Name"])
                                                                           ).ToList();
 
-                                    int caseFileNameCount = caseFileNameCollection.Count, index;
+                                    int caseFileNameCount = caseFileNameCollection.Count, index = 0;
 
-                                    for (index = 0; index < caseFileNameCount; index++)
+                                    for (; index < caseFileNameCount; index++)
                                     {
                                         string srcUrl = sourceUrl, destUrl = destinationUrl;
                                         srcUrl += "/" + caseFileNameCollection[index];

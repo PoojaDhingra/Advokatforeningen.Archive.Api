@@ -195,6 +195,22 @@
         //        }
         //    });
         //}
+
+        function copyDocument() {
+            //$.ajax({
+            //    url: 'http://localhost:9999/Documents/' + caseId + '',
+            //    type: 'POST',
+            //    data: JSON.stringify(""),
+            //    contentType: "application/json; charset=UTF-8",
+            //    success: function (data) {
+            //        console.log(data);
+            //        alert("Success");
+            //    },
+            //    error: function (err) {
+            //        alert("error " + JSON.stringify(err));
+            //    }
+            //});
+        }
     </script>
 </head>
 <body>
@@ -295,6 +311,15 @@
         <br /><br />
         <div id="guidData" style="background-color:#fff;">
         </div>
+    </div>
+
+    <div style="border:2px solid black;padding:8px;margin:auto 0; width:30%; background-color:cornflowerblue;">
+        Copy All Documents: <br />
+        Source Case <input type="text" id="sourceCase" />
+        <br />
+        Destination Case <input type="text" id="destinationCase" />
+        <br /><br />
+        <input type="button" onclick="copyDocument();" value="Copy Document" />
     </div>-->
 </body>
 </html>
