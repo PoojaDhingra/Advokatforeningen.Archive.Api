@@ -28,7 +28,7 @@ namespace Advokatforeningen.Archive.Api.Tests
         }
 
         #endregion Constructor
-  /*
+ 
         #region GetCaseFolderDetails
 
         [TestMethod, TestCategory("GetCaseFolderDetails")]
@@ -40,7 +40,7 @@ namespace Advokatforeningen.Archive.Api.Tests
         }
 
         #endregion GetCaseFolderDetails
-
+ /*
         #region CreateCaseFolders
 
         [TestMethod, TestCategory("CreateCaseFolders")]
