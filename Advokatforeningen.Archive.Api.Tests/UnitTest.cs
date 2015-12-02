@@ -40,7 +40,7 @@ namespace Advokatforeningen.Archive.Api.Tests
         }
 
         #endregion GetCaseFolderDetails
- /*
+ 
         #region CreateCaseFolders
 
         [TestMethod, TestCategory("CreateCaseFolders")]
@@ -692,6 +692,6 @@ namespace Advokatforeningen.Archive.Api.Tests
         }
 
         #endregion ArchiveCases
-        */
+        
     }
 }
